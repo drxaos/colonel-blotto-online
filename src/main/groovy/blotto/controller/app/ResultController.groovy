@@ -1,4 +1,4 @@
-package blotto.controller
+package blotto.controller.app
 
 import blotto.service.PlayerService
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +16,7 @@ public class ResultController extends WebMvcConfigurerAdapter {
     @RequestMapping(value = "/result", method = RequestMethod.GET)
     public ModelAndView result() {
         def player = playerService.loggedInUser
-        return new ModelAndView("result/result", [player: player])
+        return new ModelAndView("result/result", [:])
     }
 
 }

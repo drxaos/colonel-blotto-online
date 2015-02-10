@@ -54,6 +54,9 @@
                             <li <% print pageProperty(name: "page.current") == "profile" ? 'class="active"' : '' %>>
                                 <a href="/profile">Карточка</a>
                             </li>
+                            <li <% print pageProperty(name: "page.current") == "players" ? 'class="active"' : '' %>>
+                                <a href="/players">Противники</a>
+                            </li>
                             <li <% print pageProperty(name: "page.current") == "result" ? 'class="active"' : '' %>>
                                 <a href="/result">Сводки</a>
                             </li>
@@ -61,7 +64,7 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <p class="navbar-text ellipsis" style="max-width: 35ex">
+                                <p class="navbar-text ellipsis" style="max-width: 35ex; color: #ffffff">
                                     ${"[${username}]"}
                                 </p>
                             </li>

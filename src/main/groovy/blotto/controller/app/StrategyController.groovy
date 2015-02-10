@@ -1,5 +1,7 @@
-package blotto.controller
+package blotto.controller.app
 
+import blotto.controller.system.AbstractMvcController
+import blotto.controller.system.ActionAnswer
 import blotto.domain.Strategy
 import blotto.service.PlayerService
 import blotto.service.StrategyService
@@ -21,7 +23,7 @@ public class StrategyController extends AbstractMvcController {
     @RequestMapping(value = ["/strategy", "/"], method = RequestMethod.GET)
     public ModelAndView strategy() {
         def player = playerService.loggedInUser
-        return new ModelAndView("strategy/strategy", [player: player])
+        return new ModelAndView("strategy/strategy", [:])
     }
 
     @RequestMapping(value = "/strategy/update", method = RequestMethod.POST)

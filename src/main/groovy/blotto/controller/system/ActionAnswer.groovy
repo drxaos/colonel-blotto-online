@@ -1,4 +1,4 @@
-package blotto.controller
+package blotto.controller.system
 
 class ActionAnswer {
     String alert = "none"

@@ -11,17 +11,19 @@ import org.springframework.http.HttpStatus
 import java.util.concurrent.TimeUnit
 
 @Configuration
-public class WebConfiguration implements EmbeddedServletContainerCustomizer {
+public class ServerConfiguration implements EmbeddedServletContainerCustomizer {
 
     @Bean
     public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
-        return new WebConfiguration();
+        return new ServerConfiguration();
     }
 
     @Override
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
         TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) configurableEmbeddedServletContainer;
+
         tomcat.setSessionTimeout(120, TimeUnit.MINUTES);
+
         tomcat.setErrorPages(new HashSet<ErrorPage>());
         tomcat.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST, "/fail?code=400"));
         tomcat.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/fail?code=403"));
@@ -29,5 +31,7 @@ public class WebConfiguration implements EmbeddedServletContainerCustomizer {
         tomcat.addErrorPages(new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/fail?code=405"));
         tomcat.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/fail?code=500"));
         tomcat.addErrorPages(new ErrorPage("/fail"));
+
+        tomcat.mimeMappings.add("ico", "image/x-icon")
     }
 }

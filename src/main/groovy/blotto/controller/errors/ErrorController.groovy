@@ -1,5 +1,6 @@
-package blotto.controller
+package blotto.controller.errors
 
+import blotto.controller.system.AbstractMvcController
 import blotto.domain.Player
 import blotto.service.PlayerService
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,11 +1,10 @@
-package blotto.controller
+package blotto.controller.system
 
 import blotto.errors.CmdErrors
 import groovy.util.logging.Log4j
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Log4j
-abstract class AbstractMvcController extends WebMvcConfigurerAdapter {
+abstract class AbstractMvcController {
 
     boolean inAction = false
     def actionResult = null
