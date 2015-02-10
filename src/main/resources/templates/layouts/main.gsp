@@ -72,12 +72,7 @@
             </div>
         </nav>
 
-        <div class="alertsHolder__container">
-            <div class="alert alert-info alertsHolder__alert" style="opacity: 0.01" role="alert"><p>&nbsp;</p></div>
-        </div>
-        <script>
-            $(".alertsHolder__container").css("min-height", $(".alertsHolder__container").height());
-        </script>
+        <div class="alertsHolder__container" style="height: 1px"></div>
 
         <g:layoutBody/>
 
