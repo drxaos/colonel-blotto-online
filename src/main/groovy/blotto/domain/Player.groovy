@@ -10,11 +10,14 @@ import groovy.transform.ToString
 class Player {
     String username
     String password
+    Date created = new Date()
 
     String fullName
     String email
 
     Strategy strategy = new Strategy()
+    Date strategyUpdated
+
     Integer winCounter = 0
 
     Integer position
@@ -30,6 +33,8 @@ class Player {
 
         fullName blank: false
         email blank: false
+
+        strategyUpdated nullable: true
 
         winCounter min: 0
         position nullable: true

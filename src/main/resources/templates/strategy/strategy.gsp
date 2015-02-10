@@ -14,7 +14,7 @@
 
 <p class="text-center">
     Распределите 100 солдат по 9 полям сражений. Ваша цель — победить на как можно <br>
-    большем числе полей в битве с каждым другим участником курса!
+    большем числе полей в битве с каждым другим участником игры!
 </p>
 
 <br>
@@ -116,8 +116,8 @@
 
     <br>
 
-    <button type="submit" class="btn btn-default btn-primary">
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Сохранить
+    <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Утвердить
     </button>
 </form>
 

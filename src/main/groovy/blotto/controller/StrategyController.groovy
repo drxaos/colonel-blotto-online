@@ -30,7 +30,7 @@ public class StrategyController extends AbstractMvcController {
         action(strategy) {
             def player = playerService.loggedInUser
             strategyService.updateStrategy(player, strategy)
-            return success("updated")
+            return success("done")
         }
     }
 

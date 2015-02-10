@@ -46,13 +46,16 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li <% print pageProperty(name: "page.current") == "strategy" ? 'class="active"' : '' %>>
-                                <a href="/strategy">Стратегия</a>
+                                <a href="/strategy">Штаб</a>
+                            </li>
+                            <li <% print pageProperty(name: "page.current") == "help" ? 'class="active"' : '' %>>
+                                <a href="/help">Разведданные</a>
                             </li>
                             <li <% print pageProperty(name: "page.current") == "profile" ? 'class="active"' : '' %>>
-                                <a href="/profile">Профиль</a>
+                                <a href="/profile">Карточка</a>
                             </li>
                             <li <% print pageProperty(name: "page.current") == "result" ? 'class="active"' : '' %>>
-                                <a href="/result">Исход боя</a>
+                                <a href="/result">Сводки</a>
                             </li>
                         </ul>
 

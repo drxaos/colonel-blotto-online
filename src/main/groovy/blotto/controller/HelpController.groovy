@@ -9,14 +9,14 @@ import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Controller
-public class ProfileController extends WebMvcConfigurerAdapter {
+public class HelpController extends WebMvcConfigurerAdapter {
     @Autowired
     PlayerService playerService
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView profile() {
+    @RequestMapping(value = "/help", method = RequestMethod.GET)
+    public ModelAndView help() {
         def player = playerService.loggedInUser
-        return new ModelAndView("profile/profile", [player: player])
+        return new ModelAndView("help/help", [player: player])
     }
 
 }

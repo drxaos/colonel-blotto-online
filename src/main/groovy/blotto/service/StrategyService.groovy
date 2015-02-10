@@ -17,6 +17,7 @@ public class StrategyService {
             throw new ServiceException("illegal-arguments")
         }
         player.strategy = strategy
+        player.strategyUpdated = new Date()
         player.save(flush: true, failOnError: true)
     }
 
