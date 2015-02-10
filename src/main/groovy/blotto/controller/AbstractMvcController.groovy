@@ -1,6 +1,6 @@
 package blotto.controller
 
-import blotto.errors.CmsErrors
+import blotto.errors.CmdErrors
 import groovy.util.logging.Log4j
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
@@ -25,8 +25,8 @@ abstract class AbstractMvcController extends WebMvcConfigurerAdapter {
 
         try {
             if (cmd != null && !cmd.validate()) {
-                actionResult = new CmsErrors(cmd.errors)
-                actionOutput = error(cmd)
+                actionResult = new CmdErrors(cmd.errors)
+                actionOutput = error(actionResult)
             } else {
                 try {
                     actionResult = body()
@@ -55,6 +55,10 @@ abstract class AbstractMvcController extends WebMvcConfigurerAdapter {
             actionResult = obj
             actionOutput = error(obj)
             return actionOutput
+        } else if (obj instanceof CmdErrors) {// todo
+            actionResult = obj
+            actionOutput = error(obj)
+            return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
             actionOutput = obj
@@ -69,7 +73,11 @@ abstract class AbstractMvcController extends WebMvcConfigurerAdapter {
     final def error(obj) {
         if (obj instanceof Exception) {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj, alert: "error", message: obj.message)
+            actionOutput = new ActionAnswer(data: null, alert: "error", code: obj.message)
+            return actionOutput
+        } else if (obj instanceof CmdErrors) {// todo
+            actionResult = obj
+            actionOutput = new ActionAnswer(data: null, alert: "error", code: obj.message)
             return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
@@ -78,7 +86,7 @@ abstract class AbstractMvcController extends WebMvcConfigurerAdapter {
             return actionOutput
         } else {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj, alert: "error", message: "" + obj)
+            actionOutput = new ActionAnswer(data: obj, alert: "error", code: "" + obj)
             return actionOutput
         }
     }
@@ -86,17 +94,21 @@ abstract class AbstractMvcController extends WebMvcConfigurerAdapter {
     final def success(msg, obj = null) {
         if (obj instanceof Exception) {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj, alert: "success", message: msg)
+            actionOutput = new ActionAnswer(data: null, alert: "success", code: msg)
+            return actionOutput
+        } else if (obj instanceof CmdErrors) { // todo
+            actionResult = obj
+            actionOutput = new ActionAnswer(data: null, alert: "success", code: msg)
             return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
             obj.alert = "success"
-            obj.message = msg
+            obj.code = msg
             actionOutput = obj
             return actionOutput
         } else {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj, alert: "success", message: msg)
+            actionOutput = new ActionAnswer(data: obj, alert: "success", code: msg)
             return actionOutput
         }
     }

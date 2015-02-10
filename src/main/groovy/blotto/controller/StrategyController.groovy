@@ -24,9 +24,9 @@ public class StrategyController extends AbstractMvcController {
         return new ModelAndView("strategy/strategy", [player: player])
     }
 
-    @RequestMapping(value = "/strategy/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/strategy/update", method = RequestMethod.POST)
     @ResponseBody
-    public Map update(Strategy strategy) {
+    public ActionAnswer update(Strategy strategy) {
         action(strategy) {
             def player = playerService.loggedInUser
             strategyService.updateStrategy(player, strategy)

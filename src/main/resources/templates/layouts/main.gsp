@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/main.css"/>
     <script type="text/javascript" src="/js/main.js"></script>
     <script type="text/javascript" src="/js/number-polyfill.js"></script>
+    <script type="text/javascript" src="/js/jquery.form.min.js"></script>
 
     <g:layoutHead/>
 </head>
@@ -53,7 +54,7 @@
                             <p class="navbar-text">(${pageProperty(name: "page.username")})</p>
                         </li>
                         <li>
-                            <a href="#" class="navbar-link" style="text-decoration: underline">Выход</a>
+                            <a href="/signout" class="navbar-link" style="text-decoration: underline">Выход</a>
                         </li>
                     </ul>
                 </div>
@@ -61,7 +62,7 @@
             </div>
         </nav>
 
-        <div class="alert__holder"></div>
+        <div class="alertsHolder__container"></div>
 
         <g:layoutBody/>
 

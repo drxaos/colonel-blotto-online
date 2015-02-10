@@ -10,11 +10,12 @@ import groovy.transform.ToString
 class Player {
     String username
     String password
+
+    String fullName
     String email
 
-    Integer winCounter = 0
-
     Strategy strategy = new Strategy()
+    Integer winCounter = 0
 
     Integer position
     Integer wins = 0
@@ -26,6 +27,8 @@ class Player {
     static constraints = {
         username blank: false
         password blank: false
+
+        fullName blank: false
         email blank: false
 
         winCounter min: 0
