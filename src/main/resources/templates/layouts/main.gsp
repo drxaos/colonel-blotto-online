@@ -5,9 +5,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
     <link href='favicon.ico' rel='icon'>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,9 +23,12 @@
 </head>
 
 <body>
+<%
+    def username = pageProperty(name: "page.username") ?: null
+%>
 <div id="clearfix" class="clearfix">
 
-    <div class="container">
+    <div class="container layout__container">
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -36,33 +42,42 @@
                     <a class="navbar-brand" href="/">Блотто онлайн</a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li <% print pageProperty(name: "page.current") == "strategy" ? 'class="active"' : ''%>>
-                            <a href="/strategy">Стратегия</a>
-                        </li>
-                        <li <% print pageProperty(name: "page.current") == "profile" ? 'class="active"' : ''%>>
-                            <a href="/profile">Профиль</a>
-                        </li>
-                        <li <% print pageProperty(name: "page.current") == "result" ? 'class="active"' : ''%>>
-                            <a href="/result">Исход боя</a>
-                        </li>
-                    </ul>
+                <g:if test="${username}">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li <% print pageProperty(name: "page.current") == "strategy" ? 'class="active"' : '' %>>
+                                <a href="/strategy">Стратегия</a>
+                            </li>
+                            <li <% print pageProperty(name: "page.current") == "profile" ? 'class="active"' : '' %>>
+                                <a href="/profile">Профиль</a>
+                            </li>
+                            <li <% print pageProperty(name: "page.current") == "result" ? 'class="active"' : '' %>>
+                                <a href="/result">Исход боя</a>
+                            </li>
+                        </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <p class="navbar-text ellipsis" style="max-width: 20em">(${pageProperty(name: "page.username")})</p>
-                        </li>
-                        <li>
-                            <a href="/signout" class="navbar-link" style="text-decoration: underline">Выход</a>
-                        </li>
-                    </ul>
-                </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <p class="navbar-text ellipsis" style="max-width: 35ex">
+                                    ${"[${username}]"}
+                                </p>
+                            </li>
+                            <li>
+                                <a href="/signout" class="navbar-link" style="text-decoration: underline">Выход</a>
+                            </li>
+                        </ul>
+                    </div>
+                </g:if>
 
             </div>
         </nav>
 
-        <div class="alertsHolder__container"></div>
+        <div class="alertsHolder__container">
+            <div class="alert alert-info alertsHolder__alert" style="opacity: 0.01" role="alert"><p>&nbsp;</p></div>
+        </div>
+        <script>
+            $(".alertsHolder__container").css("min-height", $(".alertsHolder__container").height());
+        </script>
 
         <g:layoutBody/>
 

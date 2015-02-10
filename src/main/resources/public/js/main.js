@@ -27,7 +27,7 @@ BUS.on("page.alert", function (event, data) {
     if (message && type != 'none') {
         message = '<p class="alert__msg">' + message + '</p>';
         $(".alertsHolder__container").html(
-            "<div class=\"alert alert-" + type + " alertsHolder__alert alert-dismissible\" role=\"alert\">"
+            "<div class=\"alert alert-" + type + " alertsHolder__alert alert-dismissible\" style=\"opacity:0.1; z-index: 999\" role=\"alert\">"
             + "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>"
             + message
             + "</div>"

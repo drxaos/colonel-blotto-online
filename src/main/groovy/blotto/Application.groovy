@@ -2,15 +2,14 @@ package blotto
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.context.annotation.Bean
+import org.springframework.boot.autoconfigure.web.BasicErrorController
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.EnableAspectJAutoProxy
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 
 @Configuration
 @ComponentScan
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = [BasicErrorController])
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application {
 

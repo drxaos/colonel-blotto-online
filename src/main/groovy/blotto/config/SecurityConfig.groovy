@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.encrypt.Encryptors
 import org.springframework.security.crypto.encrypt.TextEncryptor
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
@@ -56,10 +57,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
 
                 .and().authorizeRequests()
-                .antMatchers("/favicon.ico", "/css/**", "/images/**", "/js/**", "/login/**").permitAll()
+                .antMatchers("/login/**", "/signup/**", "/signout/**").permitAll()
+                .antMatchers("/favicon.ico", "/css/**", "/images/**", "/js/**").permitAll()
                 .antMatchers("/**").authenticated()
 
                 .and().rememberMe();
+
+        http
+                .sessionManagement()
+                .maximumSessions(Integer.MAX_VALUE)
+                .expiredUrl("/login?expired=1")
+                .maxSessionsPreventsLogin(true)
+                .and()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/");
     }
 
     @Bean
