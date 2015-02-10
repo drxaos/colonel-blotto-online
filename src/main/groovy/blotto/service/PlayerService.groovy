@@ -14,7 +14,7 @@ public class PlayerService {
     @Transactional
     public Player createPlayer(String username, String password, String email) {
         if (!Player.findByUsername(username)) {
-            Player player = new Player(username: username, email: email, password: password)
+            Player player = new Player(username: username, email: email, password: password, fullName: "User Name")
             player.save(flush: true, failOnError: true)
             return player
         } else {

@@ -33,7 +33,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">Блотто</a>
+                    <a class="navbar-brand" href="/">Блотто онлайн</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -51,7 +51,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <p class="navbar-text">(${pageProperty(name: "page.username")})</p>
+                            <p class="navbar-text ellipsis" style="max-width: 20em">(${pageProperty(name: "page.username")})</p>
                         </li>
                         <li>
                             <a href="/signout" class="navbar-link" style="text-decoration: underline">Выход</a>
