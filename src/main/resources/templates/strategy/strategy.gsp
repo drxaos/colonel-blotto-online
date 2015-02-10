@@ -2,7 +2,8 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Игра полковника Блотто</title>
-    <g:layoutHead/>
+    <sitemesh:parameter name="current" value="strategy"/>
+    <sitemesh:parameter name="username" value="${player.username}"/>
 </head>
 
 <body>
@@ -18,25 +19,27 @@
 
 <br>
 
-<form name="form">
+<form name="form" action="/strategy/update" method="post">
 
     <div class="row">
         <div class="col-sm-4"></div>
 
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f1" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f1"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f1}" name="f1" onkeypress="return isNumberKey(event)">
         </div>
 
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f2" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f2"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f2}" name="f2" onkeypress="return isNumberKey(event)">
         </div>
-
 
         <div class="col-sm-2 ">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f3" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f3"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f3}" name="f3" onkeypress="return isNumberKey(event)">
         </div>
     </div>
 
@@ -44,20 +47,21 @@
         <div class="col-sm-4"></div>
 
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f4" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f4"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f4}" name="f4" onkeypress="return isNumberKey(event)">
         </div>
 
-
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f5" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f5"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f5}" name="f5" onkeypress="return isNumberKey(event)">
         </div>
 
-
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f6" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f6"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f6}" name="f6" onkeypress="return isNumberKey(event)">
         </div>
     </div>
 
@@ -65,25 +69,79 @@
         <div class="col-sm-4"></div>
 
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f7" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f7"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f7}" name="f7" onkeypress="return isNumberKey(event)">
         </div>
 
-
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f8" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f8"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f8}" name="f8" onkeypress="return isNumberKey(event)">
         </div>
 
-
         <div class="col-sm-2">
-            <input class="form-control input-sm col-md-offset-2" onblur="findTotal()" id="f9" type="number"
-                   min="0" max="100" step="1" value="0" name="soldiers" onkeypress="return isNumberKey(event)">
+            <input class="form-control input-sm col-md-offset-2 strategy__field" onblur="findTotal()" id="f9"
+                   type="number"
+                   min="0" max="100" step="1" value="${player.strategy.f9}" name="f9" onkeypress="return isNumberKey(event)">
         </div>
     </div>
+
+    <br>
+
+    <p>Количество солдат на полях сражений: <span class="strategy__total"></span> <span
+            class="strategy__totalError"></span></p>
+
+    <br>
+
+    <button type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-ok"
+                                                                    aria-hidden="true"></span> Сохранить</button>
 </form>
 
-<p>Количество солдат на полях сражений:</p>
+
+<script type="text/javascript">
+
+    var tick = '<img src="https://d396qusza40orc.cloudfront.net/gt/images/tick_new.png" style="width:16px;margin: 0 0 3px 5px;"/>';
+    var cross = '<img src="https://d396qusza40orc.cloudfront.net/gt/images/cross_new.png" style="width:16px;margin: 0 0 3px 2px;"/>';
+
+    sum = 0;
+
+    function findTotal() {
+        pattern = /^[0]+\d*$/;
+        sum = 0;
+
+        $(".strategy__field").each(function (el) {
+            var val = $(this).val();
+            if (val == "" || pattern.test(val)) {
+                $(this).val(val = "0");
+            }
+            if (parseInt(val)) {
+                sum += parseInt(val);
+            }
+
+        });
+
+        $('.strategy__total').text(sum);
+
+        if (sum == 100) {
+            $('.strategy__totalError').html(tick);
+        } else {
+            $('.strategy__totalError').html(cross);
+        }
+    }
+
+    $('.strategy__total').text(sum);
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode != 8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
+    findTotal();
+</script>
 
 </body>
 </html>

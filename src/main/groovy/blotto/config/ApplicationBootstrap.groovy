@@ -1,7 +1,7 @@
 package blotto.config
 
 import blotto.errors.ServiceException
-import blotto.service.PeopleService
+import blotto.service.PlayerService
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
@@ -25,7 +25,7 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
     }
 
     @Autowired
-    PeopleService peopleService
+    PlayerService peopleService
 
     public void bootstrap() {
 
