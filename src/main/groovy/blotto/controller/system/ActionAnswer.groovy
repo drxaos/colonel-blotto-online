@@ -1,13 +1,18 @@
 package blotto.controller.system
 
-class ActionAnswer {
-    String alert = "none"
-    String code = ""
-    String message = ""
-    def data
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-    void setCode(String code) {
-        this.code = code
-        this.message = "[[${code}]]" //todo i18n
-    }
+@JsonIgnoreProperties(value = ["controller", "action", "code"])
+class ActionAnswer {
+
+    Class controller
+    String action
+
+    String alert = "none"
+    def code = ""
+
+    String message = ""
+    List fieldError = []
+
+    def data
 }

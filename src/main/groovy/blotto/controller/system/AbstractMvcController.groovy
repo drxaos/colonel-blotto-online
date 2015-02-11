@@ -1,11 +1,17 @@
 package blotto.controller.system
 
 import blotto.errors.CmdErrors
+import blotto.service.MessageFactoryService
 import groovy.util.logging.Log4j
+import org.springframework.beans.factory.annotation.Autowired
 
 @Log4j
 abstract class AbstractMvcController {
 
+    @Autowired
+    MessageFactoryService messageFactoryService
+
+    def actionName
     boolean inAction = false
     def actionResult = null
     def actionOutput = null
@@ -54,60 +60,51 @@ abstract class AbstractMvcController {
             actionResult = obj
             actionOutput = error(obj)
             return actionOutput
-        } else if (obj instanceof CmdErrors) {// todo
+        } else if (obj instanceof CmdErrors) {
             actionResult = obj
             actionOutput = error(obj)
             return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
-            actionOutput = obj
+            actionOutput = messageFactoryService.updateAnswerData(obj, obj.data)
             return actionOutput
         } else {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj)
+            actionOutput = messageFactoryService.createAnswerFromData(this.class, actionName, obj)
             return actionOutput
         }
     }
 
-    final def error(obj) {
+    final def error(obj, data = null) {
         if (obj instanceof Exception) {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: null, alert: "error", code: obj.message)
-            return actionOutput
-        } else if (obj instanceof CmdErrors) {// todo
-            actionResult = obj
-            actionOutput = new ActionAnswer(data: null, alert: "error", code: obj.message)
+            actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data)
             return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
-            obj.alert = "error"
-            actionOutput = obj
+            actionOutput = messageFactoryService.updateAnswerType(obj, "error")
             return actionOutput
         } else {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj, alert: "error", code: "" + obj)
+            actionOutput = messageFactoryService.createAnswerFromCode(this.class, actionName, "error", "" + obj, data)
             return actionOutput
         }
     }
 
-    final def success(msg, obj = null) {
+    final def success(obj, data = null) {
         if (obj instanceof Exception) {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: null, alert: "success", code: msg)
-            return actionOutput
-        } else if (obj instanceof CmdErrors) { // todo
-            actionResult = obj
-            actionOutput = new ActionAnswer(data: null, alert: "success", code: msg)
+            actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data)
+            actionOutput = messageFactoryService.updateAnswerType(actionOutput, "success")
             return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
-            obj.alert = "success"
-            obj.code = msg
+            actionOutput = messageFactoryService.updateAnswerType(actionOutput, "success")
             actionOutput = obj
             return actionOutput
         } else {
             actionResult = obj
-            actionOutput = new ActionAnswer(data: obj, alert: "success", code: msg)
+            actionOutput = messageFactoryService.createAnswerFromCode(this.class, actionName, "success", "" + obj, data)
             return actionOutput
         }
     }

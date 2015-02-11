@@ -1,7 +1,9 @@
 package blotto.config
 
+import blotto.domain.Player
 import blotto.errors.ServiceException
 import blotto.service.PlayerService
+import blotto.utils.SignInUtils
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
@@ -34,6 +36,8 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
         } catch (ServiceException e) {
             log.info(e)
         }
+
+        SignInUtils.signin("test")
 
     }
 }
