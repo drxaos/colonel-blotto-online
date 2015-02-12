@@ -22,6 +22,18 @@ public class PlayerService {
         }
     }
 
+    @Transactional
+    public Player updatePlayer(Player player, String password, String email, String fullName) {
+        if (!player) {
+            throw new IllegalArgumentException("wrong-args")
+        }
+        player.fullName = fullName
+        player.email = email
+        player.password = password
+        player.save(flush: true, failOnError: true)
+        return player
+    }
+
     public Player getCurrentLoggedInUser() {
         def principal = SecurityContextHolder.getContext()?.getAuthentication()?.getPrincipal()
         def username = ""
