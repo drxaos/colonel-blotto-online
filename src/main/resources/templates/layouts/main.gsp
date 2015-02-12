@@ -42,7 +42,7 @@
                     <a class="navbar-brand" href="/">Блотто онлайн</a>
                 </div>
 
-                <g:if test="${username}">
+                <sec:ifLoggedIn>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li <% print pageProperty(name: "page.current") == "strategy" ? 'class="active"' : '' %>>
@@ -65,7 +65,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <p class="navbar-text ellipsis" style="max-width: 35ex; color: #ffffff">
-                                    ${"[${username}]"}
+                                    [<sec:loggedInUsername/>]
                                 </p>
                             </li>
                             <li>
@@ -73,7 +73,7 @@
                             </li>
                         </ul>
                     </div>
-                </g:if>
+                </sec:ifLoggedIn>
 
             </div>
         </nav>

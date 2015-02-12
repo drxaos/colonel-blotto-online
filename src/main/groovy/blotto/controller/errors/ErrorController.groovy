@@ -19,7 +19,7 @@ public class ErrorController extends AbstractMvcController {
     public ModelAndView showError() {
         Player p = null
         try {
-            p = playerService.loggedInUser
+            p = playerService.currentLoggedInUser
         } catch (Exception ignore) {
             // nothing
         }

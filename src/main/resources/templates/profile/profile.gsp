@@ -3,7 +3,6 @@
     <meta name="layout" content="main"/>
     <title>Игра полковника Блотто</title>
     <sitemesh:parameter name="current" value="profile"/>
-    <sitemesh:parameter name="username" value="${player?.fullName}"/>
 </head>
 
 <body>

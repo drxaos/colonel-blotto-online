@@ -22,7 +22,7 @@ public class PlayerService {
         }
     }
 
-    public Player getLoggedInUser() {
+    public Player getCurrentLoggedInUser() {
         def principal = SecurityContextHolder.getContext()?.getAuthentication()?.getPrincipal()
         def username = ""
         if (principal instanceof String) {

@@ -27,7 +27,7 @@ public class MvcInterceptor extends HandlerInterceptorAdapter {
                 def targetController = ((AbstractMvcController) handler.bean)
                 def actionName = handler?.method?.name
                 targetController.actionName = actionName
-                def player = playerService.loggedInUser
+                def player = playerService.currentLoggedInUser
                 log.debug("${player?.username}(${request?.session?.id})>> ${request?.requestURI} :: ${targetController?.class?.simpleName}.${actionName}")
             }
         }
@@ -41,7 +41,7 @@ public class MvcInterceptor extends HandlerInterceptorAdapter {
         if (handler && handler instanceof HandlerMethod) {
             if (handler.bean && handler.bean instanceof AbstractMvcController) {
                 def targetController = ((AbstractMvcController) handler.bean)
-                def player = playerService.loggedInUser
+                def player = playerService.currentLoggedInUser
                 def result = modelAndView
                 if(handler?.method?.returnType == ActionAnswer){
                     result = targetController.actionOutput

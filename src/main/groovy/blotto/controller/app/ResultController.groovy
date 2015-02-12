@@ -15,7 +15,7 @@ public class ResultController extends AbstractMvcController {
 
     @RequestMapping(value = "/result", method = RequestMethod.GET)
     public ModelAndView result() {
-        def player = playerService.loggedInUser
+        def player = playerService.currentLoggedInUser
         return new ModelAndView("result/result", [:])
     }
 
