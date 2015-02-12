@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.AbstractMessageSource
 import org.springframework.context.support.ResourceBundleMessageSource
 
+/**
+ * Enable messages.properties
+ */
 @Configuration
 public class I18nConfiguration {
 

@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus
 
 import java.util.concurrent.TimeUnit
 
+/**
+ * Tomcat configuration
+ */
 @Configuration
 public class ServerConfiguration implements EmbeddedServletContainerCustomizer {
 
@@ -22,7 +25,7 @@ public class ServerConfiguration implements EmbeddedServletContainerCustomizer {
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
         TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) configurableEmbeddedServletContainer;
 
-        //tomcat.setPort(9999)
+        tomcat.setPort(9987)
 
         tomcat.setSessionTimeout(120, TimeUnit.MINUTES);
 

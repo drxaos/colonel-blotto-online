@@ -1,7 +1,8 @@
 package blotto.config
 
 import blotto.domain.Player
-import blotto.service.PlayerService
+import blotto.service.app.PlayerService
+import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.annotation.AnnotationUtils
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -11,6 +12,10 @@ import org.springframework.web.servlet.ModelAndView
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Error page 500
+ */
+@Log4j
 @ControllerAdvice
 class GlobalDefaultExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "/error/error";
@@ -25,6 +30,8 @@ class GlobalDefaultExceptionHandler {
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
+
+        log.error(null, e)
 
         Player p = null
         try {

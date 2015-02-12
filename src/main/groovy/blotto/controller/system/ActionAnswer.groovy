@@ -12,7 +12,24 @@ class ActionAnswer {
     def code = ""
 
     String message = ""
-    List fieldError = []
+    List fields = []
 
     def data
+
+    def leftShift(FieldError fieldError) {
+        this.fields << fieldError
+        return this
+    }
+
+
+    @Override
+    public String toString() {
+        return "ActionAnswer{" +
+                "alert='" + alert + '\'' +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", fields=" + fields +
+                ", data=" + data +
+                '}';
+    }
 }

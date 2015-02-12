@@ -8,6 +8,9 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource
 import javax.sql.DataSource
 import java.sql.Driver
 
+/**
+ * Database config
+ */
 @Log4j
 @Configuration
 public class DataSourceConfiguration {

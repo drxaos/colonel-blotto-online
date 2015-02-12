@@ -1,4 +1,4 @@
-package blotto.service
+package blotto.service.app
 
 import blotto.domain.Player
 import blotto.domain.Strategy

@@ -1,7 +1,8 @@
-package blotto.service
+package blotto.service.system
 
 import blotto.controller.system.AbstractMvcController
 import blotto.controller.system.ActionAnswer
+import blotto.controller.system.FieldError
 import blotto.errors.CmdErrors
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +31,9 @@ public class MessageFactoryService {
                     codes << "controller.${path}.${type}.${exClass.simpleName}"
                     exClass = exClass.getSuperclass()
                 }
+            } else if (value instanceof FieldError) {
+                codes << "controller.${path}.${type}.${value.name}.${normalizeMessage(value.code)}"
+                codes << "controller.${path}.${type}.${value.name}"
             } else {
                 codes << "controller.${path}.${type}.${normalizeMessage(value)}"
             }
@@ -39,7 +43,7 @@ public class MessageFactoryService {
     }
 
     private searchMessage(Class controllerClass, String actionName, String type,
-                          def value = null, def data) {
+                          def value = null, def data = null) {
 
         if (value == null) {
             return ""
@@ -88,6 +92,11 @@ public class MessageFactoryService {
         return answer
     }
 
+    public FieldError updateFieldMessage(FieldError fieldError) {
+        fieldError.message = searchMessage(fieldError.controller, fieldError.action, "field", fieldError)
+        return fieldError
+    }
+
     public ActionAnswer updateAnswerData(ActionAnswer answer, Object data) {
         answer.data = data
         updateMessage(answer)
@@ -114,5 +123,11 @@ public class MessageFactoryService {
         def answer = new ActionAnswer(controller: controller, action: action, data: data, alert: type, code: code)
         updateMessage(answer)
         return answer
+    }
+
+    public FieldError createFieldError(Class controller, String action, String fieldName, String errorCode) {
+        def fe = new FieldError(controller: controller, action: action, code: errorCode, name: fieldName)
+        updateFieldMessage(fe)
+        return fe
     }
 }

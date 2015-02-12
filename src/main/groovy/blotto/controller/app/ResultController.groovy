@@ -1,7 +1,7 @@
 package blotto.controller.app
 
 import blotto.controller.system.AbstractMvcController
-import blotto.service.PlayerService
+import blotto.service.app.PlayerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping

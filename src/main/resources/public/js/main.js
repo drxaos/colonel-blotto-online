@@ -17,8 +17,32 @@ $(document).ready(function () {
 BUS.on("page.alert", function (event, data) {
     var message = data.message;
     var type = data.alert;
+
+    // fields
+
+    if (data.fields) {
+        var selected = false;
+        for (var i in data.fields) {
+            var f = data.fields[i];
+            var $formGroup = $('input[name="' + f.name + '"]').closest(".form-group");
+            $formGroup.removeClass("has-error")
+                .removeClass("has-success")
+                .removeClass("has-info")
+                .removeClass("has-warning")
+                .removeClass("has-none");
+            $formGroup.addClass("has-" + type);
+            $formGroup.find(".help-block").text(f.message);
+            $formGroup.find("input").focus().select()
+        }
+    }
+
+    // alert
+
     if (type == "error") {
         type = "danger"
+    }
+    if (type == "none") {
+        return;
     }
 
     var pageHeight = $(document).height();

@@ -1,7 +1,8 @@
 package blotto.controller.system
 
 import blotto.errors.CmdErrors
-import blotto.service.MessageFactoryService
+import blotto.errors.ServiceException
+import blotto.service.system.MessageFactoryService
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -50,13 +51,18 @@ abstract class AbstractMvcController {
     }
 
     final def on(Class<? extends Exception> exception, Closure modify) {
-        if (exception.isAssignableFrom(actionResult)) {
-            actionOutput = answer(modify())
+        if (exception && actionResult && exception.isAssignableFrom(actionResult.getClass())) {
+            return actionOutput = answer(modify(actionResult))
         }
+        return actionOutput
     }
 
     final def answer(obj, data = null) {
-        if (obj instanceof Exception) {
+        if (obj instanceof ServiceException) {
+            actionResult = obj
+            actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data ?: obj.data)
+            return actionOutput
+        } else if (obj instanceof Exception) {
             actionResult = obj
             actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data)
             return actionOutput
@@ -89,5 +95,9 @@ abstract class AbstractMvcController {
     final def info(obj, data = null) {
         answer(obj, data)
         actionOutput = messageFactoryService.updateAnswerType(actionOutput, "info")
+    }
+
+    final def field(String fieldName, String errorCode) {
+        return messageFactoryService.createFieldError(this.class, actionName, fieldName, errorCode)
     }
 }

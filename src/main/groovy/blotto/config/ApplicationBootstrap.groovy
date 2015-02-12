@@ -1,13 +1,16 @@
 package blotto.config
 
 import blotto.errors.ServiceException
-import blotto.service.PlayerService
+import blotto.service.app.PlayerService
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
 
+/**
+ * Bootstrap executes on application startup
+ */
 @Log4j
 @Component
 public class ApplicationBootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -30,7 +33,7 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
     public void bootstrap() {
 
         try {
-            peopleService.createPlayer("test", "test", "test@example.com")
+            peopleService.createPlayer("test", "test", "test@example.com", "User for test")
         } catch (ServiceException e) {
             log.info(e)
         }

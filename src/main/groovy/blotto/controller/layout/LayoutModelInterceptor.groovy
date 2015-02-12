@@ -1,6 +1,6 @@
 package blotto.controller.layout
 
-import blotto.service.PlayerService
+import blotto.service.app.PlayerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.ModelAndView
@@ -9,6 +9,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * Inject params into model for layout rendering
+ */
 @Component
 public class LayoutModelInterceptor extends HandlerInterceptorAdapter {
     @Autowired

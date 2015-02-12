@@ -17,17 +17,29 @@
         <div class="wrapper">
             <form class="form-signup text-left" action="/signup/process" method="post">
 
-                <h3>Укажите ваше имя</h3>
-                <input type="text" class="form-control" name="fullName" placeholder="Имя" required="" autofocus=""/>
+                <div class="form-group">
+                    <h3 class="control-label">Укажите ваше имя</h3>
+                    <input type="text" class="form-control" name="fullName" placeholder="Имя" required="" autofocus=""/>
+                    <span class="help-block"></span>
+                </div>
 
-                <h3>Выберите логин</h3>
-                <input type="password" class="form-control" name="username" placeholder="Логин" required=""/>
+                <div class="form-group">
+                    <h3 class="control-label">Выберите логин</h3>
+                    <input type="text" class="form-control" name="username" placeholder="Логин" required=""/>
+                    <span class="help-block"></span>
+                </div>
 
-                <h3>Ключевое слово (пароль)</h3>
-                <input type="password" class="form-control" name="password" placeholder="Пароль" required=""/>
+                <div class="form-group">
+                    <h3 class="control-label">Ключевое слово (пароль)</h3>
+                    <input type="password" class="form-control" name="password" placeholder="Пароль" required=""/>
+                    <span class="help-block"></span>
+                </div>
 
-                <h3>Ваш E-Mail</h3>
-                <input type="text" class="form-control" name="email" placeholder="E-Mail" required="" autofocus=""/>
+                <div class="form-group">
+                    <h3 class="control-label">Ваш E-Mail</h3>
+                    <input type="text" class="form-control" name="email" placeholder="E-Mail" required="" autofocus=""/>
+                    <span class="help-block"></span>
+                </div>
 
                 <div style="height: 30px">&nbsp;</div>
 

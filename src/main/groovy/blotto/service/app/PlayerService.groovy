@@ -1,7 +1,7 @@
-package blotto.service
+package blotto.service.app
 
 import blotto.domain.Player
-import blotto.errors.ServiceException
+import blotto.errors.UserAlreadyExists
 import groovy.util.logging.Log4j
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional
 public class PlayerService {
 
     @Transactional
-    public Player createPlayer(String username, String password, String email) {
+    public Player createPlayer(String username, String password, String email, String fullName) {
         if (!Player.findByUsername(username)) {
-            Player player = new Player(username: username, email: email, password: password, fullName: "User Name")
+            Player player = new Player(username: username, email: email, password: password, fullName: fullName)
             player.save(flush: true, failOnError: true)
             return player
         } else {
-            throw new ServiceException("player exists", [username: username])
+            throw new UserAlreadyExists(username)
         }
     }
 
