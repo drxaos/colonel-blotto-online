@@ -83,7 +83,7 @@ public class MessageFactoryService {
         return msg
     }
 
-    private ActionAnswer updateMessage(ActionAnswer answer) {
+    public ActionAnswer updateMessage(ActionAnswer answer) {
         answer.message = searchMessage(answer.controller, answer.action, answer.alert, answer.code, answer.data)
         return answer
     }

@@ -22,6 +22,8 @@ public class ServerConfiguration implements EmbeddedServletContainerCustomizer {
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
         TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) configurableEmbeddedServletContainer;
 
+        //tomcat.setPort(9999)
+
         tomcat.setSessionTimeout(120, TimeUnit.MINUTES);
 
         tomcat.setErrorPages(new HashSet<ErrorPage>());

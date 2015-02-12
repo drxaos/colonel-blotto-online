@@ -1,10 +1,10 @@
 package blotto.domain
 
-import grails.persistence.Entity
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import org.codehaus.groovy.grails.validation.Validateable
 
-@Entity
+@Validateable
 @ToString
 @EqualsAndHashCode
 class Strategy {
@@ -20,18 +20,14 @@ class Strategy {
     Integer f9 = 0
 
     static constraints = {
-        f1 min: 0, max: 100
-        f2 min: 0, max: 100
-        f3 min: 0, max: 100
-        f4 min: 0, max: 100
-        f5 min: 0, max: 100
-        f6 min: 0, max: 100
-        f7 min: 0, max: 100
-        f8 min: 0, max: 100
-        f9 min: 0, max: 100
-    }
-
-    static mapping = {
-        datasource "--!embedded entity"
+        f1 nullable: false, min: 0, max: 100
+        f2 nullable: false, min: 0, max: 100
+        f3 nullable: false, min: 0, max: 100
+        f4 nullable: false, min: 0, max: 100
+        f5 nullable: false, min: 0, max: 100
+        f6 nullable: false, min: 0, max: 100
+        f7 nullable: false, min: 0, max: 100
+        f8 nullable: false, min: 0, max: 100
+        f9 nullable: false, min: 0, max: 100
     }
 }

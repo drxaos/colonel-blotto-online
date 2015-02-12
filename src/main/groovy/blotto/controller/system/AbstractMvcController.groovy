@@ -55,57 +55,39 @@ abstract class AbstractMvcController {
         }
     }
 
-    final def answer(obj) {
+    final def answer(obj, data = null) {
         if (obj instanceof Exception) {
             actionResult = obj
-            actionOutput = error(obj)
-            return actionOutput
-        } else if (obj instanceof CmdErrors) {
-            actionResult = obj
-            actionOutput = error(obj)
+            actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data)
             return actionOutput
         } else if (obj instanceof ActionAnswer) {
             actionResult = obj.data
-            actionOutput = messageFactoryService.updateAnswerData(obj, obj.data)
+            actionOutput = messageFactoryService.updateMessage(obj)
             return actionOutput
         } else {
             actionResult = obj
-            actionOutput = messageFactoryService.createAnswerFromData(this.class, actionName, obj)
+            actionOutput = messageFactoryService.createAnswerFromCode(this.class, actionName, "none", "" + obj, data)
             return actionOutput
         }
     }
 
     final def error(obj, data = null) {
-        if (obj instanceof Exception) {
-            actionResult = obj
-            actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data)
-            return actionOutput
-        } else if (obj instanceof ActionAnswer) {
-            actionResult = obj.data
-            actionOutput = messageFactoryService.updateAnswerType(obj, "error")
-            return actionOutput
-        } else {
-            actionResult = obj
-            actionOutput = messageFactoryService.createAnswerFromCode(this.class, actionName, "error", "" + obj, data)
-            return actionOutput
-        }
+        answer(obj, data)
+        actionOutput = messageFactoryService.updateAnswerType(actionOutput, "error")
+    }
+
+    final def warning(obj, data = null) {
+        answer(obj, data)
+        actionOutput = messageFactoryService.updateAnswerType(actionOutput, "warning")
     }
 
     final def success(obj, data = null) {
-        if (obj instanceof Exception) {
-            actionResult = obj
-            actionOutput = messageFactoryService.createAnswerFromException(this.class, actionName, obj, data)
-            actionOutput = messageFactoryService.updateAnswerType(actionOutput, "success")
-            return actionOutput
-        } else if (obj instanceof ActionAnswer) {
-            actionResult = obj.data
-            actionOutput = messageFactoryService.updateAnswerType(actionOutput, "success")
-            actionOutput = obj
-            return actionOutput
-        } else {
-            actionResult = obj
-            actionOutput = messageFactoryService.createAnswerFromCode(this.class, actionName, "success", "" + obj, data)
-            return actionOutput
-        }
+        answer(obj, data)
+        actionOutput = messageFactoryService.updateAnswerType(actionOutput, "success")
+    }
+
+    final def info(obj, data = null) {
+        answer(obj, data)
+        actionOutput = messageFactoryService.updateAnswerType(actionOutput, "info")
     }
 }

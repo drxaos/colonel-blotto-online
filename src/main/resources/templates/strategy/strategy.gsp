@@ -116,7 +116,7 @@
 
     <br>
 
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-primary strategy__apply">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Утвердить
     </button>
 </form>
@@ -153,9 +153,19 @@
         if (sum == 100) {
             $('.strategy__totalError').html(tick);
             $('.strategy__totalErrorMessage').css("color", "white");
+            $('.strategy__apply')
+                    .removeClass("btn-primary")
+                    .removeClass("btn-success")
+                    .removeClass("btn-default")
+                    .addClass("btn-success");
         } else {
             $('.strategy__totalError').html(cross);
             $('.strategy__totalErrorMessage').css("color", "red");
+            $('.strategy__apply')
+                    .removeClass("btn-primary")
+                    .removeClass("btn-success")
+                    .removeClass("btn-default")
+                    .addClass("btn-default");
         }
     }
 

@@ -28,15 +28,15 @@ class Player {
     static embedded = ['strategy']
 
     static constraints = {
-        username blank: false
-        password blank: false
+        username nullable: false, blank: false, unique: true
+        password nullable: false, blank: false
 
-        fullName blank: false
-        email blank: false
+        fullName nullable: false, blank: false, unique: true
+        email nullable: false, blank: false, unique: true
 
         strategyUpdated nullable: true
 
-        winCounter min: 0
+        winCounter nullable: false, min: 0
         position nullable: true
         wins nullable: true
         loses nullable: true

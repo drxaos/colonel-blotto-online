@@ -21,4 +21,15 @@ public class StrategyService {
         player.save(flush: true, failOnError: true)
     }
 
+    public int countSoldiers(Strategy strategy) {
+        if (!strategy) {
+            throw new ServiceException("illegal-arguments")
+        }
+        return (1..9).collect { strategy."f${it}" }.sum(0)
+    }
+
+    public boolean checkSoldiers(Strategy strategy) {
+        return countSoldiers(strategy) == 100
+    }
+
 }

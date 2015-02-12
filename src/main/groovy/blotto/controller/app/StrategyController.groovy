@@ -32,7 +32,11 @@ public class StrategyController extends AbstractMvcController {
         action(strategy) {
             def player = playerService.loggedInUser
             strategyService.updateStrategy(player, strategy)
-            return success("done")
+            if (strategyService.checkSoldiers(player.strategy)) {
+                return success("done")
+            } else {
+                return warning("done-incorrect")
+            }
         }
     }
 
