@@ -20,14 +20,14 @@ class Strategy {
     Integer f9 = 0
 
     static constraints = {
-        f1 nullable: false, min: 0, max: 10
-        f2 nullable: false, min: 0, max: 10
-        f3 nullable: false, min: 0, max: 10
-        f4 nullable: false, min: 0, max: 10
-        f5 nullable: false, min: 0, max: 10
-        f6 nullable: false, min: 0, max: 10
-        f7 nullable: false, min: 0, max: 10
-        f8 nullable: false, min: 0, max: 10
-        f9 nullable: false, min: 0, max: 10
+        f1 nullable: false, min: 0, max: 100
+        f2 nullable: false, min: 0, max: 100
+        f3 nullable: false, min: 0, max: 100
+        f4 nullable: false, min: 0, max: 100
+        f5 nullable: false, min: 0, max: 100
+        f6 nullable: false, min: 0, max: 100
+        f7 nullable: false, min: 0, max: 100
+        f8 nullable: false, min: 0, max: 100
+        f9 nullable: false, min: 0, max: 100
     }
 }

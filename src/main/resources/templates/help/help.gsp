@@ -29,8 +29,8 @@
             <p>Каждая сторона стремится победить на как можно большем числе полей, то есть набрать как можно большее число очков.</p>
         </div>
 
-        <div>
-            <a href="/" class="btn btn-primary pull-right">Раздать боевые приказы &gt;&gt;</a>
+        <div class="text-center">
+            <a href="/" class="btn btn-primary">Раздать боевые приказы</a>
         </div>
     </div>
 

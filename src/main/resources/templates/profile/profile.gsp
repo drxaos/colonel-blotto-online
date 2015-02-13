@@ -45,7 +45,7 @@
 
                 <div style="height: 30px">&nbsp;</div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Записать</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Внести изменения</button>
             </form>
         </div>
     </div>
