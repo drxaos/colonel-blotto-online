@@ -34,6 +34,11 @@ public class PlayerService {
         return player
     }
 
+    @Transactional
+    public List listPlayers(Player forPlayer) {
+        Player.findAll("from Player p order by p.score, p.position, p.strategyUpdated", [:], [max: 1000])
+    }
+
     public Player getCurrentLoggedInUser() {
         def principal = SecurityContextHolder.getContext()?.getAuthentication()?.getPrincipal()
         def username = ""

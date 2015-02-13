@@ -18,7 +18,7 @@ class Player {
     Strategy strategy = new Strategy()
     Date strategyUpdated
 
-    Integer winCounter = 0
+    Integer score = 0
 
     Integer position
     Integer wins = 0
@@ -36,7 +36,7 @@ class Player {
 
         strategyUpdated nullable: true
 
-        winCounter nullable: false, min: 0
+        score nullable: false, min: 0
         position nullable: true
         wins nullable: true
         loses nullable: true
