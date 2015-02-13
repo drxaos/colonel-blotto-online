@@ -1,15 +1,12 @@
-package blotto.job
+package blotto.job.system
 
 import groovy.util.logging.Log4j
-import org.springframework.scheduling.annotation.EnableScheduling
-import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.stereotype.Service
 
 @Log4j
-@Service
-@EnableScheduling
-public class BattleJob {
+public class AbstractJob {
     final private lock = [inProgress: false]
+    private Date lastStart = null
+    private Date lastEnd = null
 
     public boolean isInProgress() {
         synchronized (lock) {
@@ -17,15 +14,24 @@ public class BattleJob {
         }
     }
 
-    @Scheduled(cron = "0 * * * * *")
-    public void runBattle() {
+    Date getLastStart() {
+        return lastStart
+    }
+
+    Date getLastEnd() {
+        return lastEnd
+    }
+
+    public void run(Closure job) {
         try {
             synchronized (lock) {
                 lock.inProgress = true
             }
+            lastStart = new Date()
 
-            System.out.println("Job is running");
+            job.call()
 
+            lastEnd = new Date()
         } catch (Exception e) {
             log.error(null, e)
         } finally {

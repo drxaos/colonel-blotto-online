@@ -1,7 +1,7 @@
 package blotto.aop.inprogress
 
 import blotto.errors.BattleIsInProgress
-import blotto.job.BattleJob
+import blotto.job.app.BattleJob
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect

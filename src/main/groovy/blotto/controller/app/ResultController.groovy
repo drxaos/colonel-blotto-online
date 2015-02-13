@@ -2,6 +2,7 @@ package blotto.controller.app
 
 import blotto.controller.system.AbstractMvcController
 import blotto.domain.Strategy
+import blotto.job.app.BattleJob
 import blotto.service.app.GameService
 import blotto.service.app.PlayerService
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,9 +17,14 @@ public class ResultController extends AbstractMvcController {
     PlayerService playerService
     @Autowired
     GameService gameService
+    @Autowired
+    BattleJob battleJob
 
     @RequestMapping(value = "/result", method = RequestMethod.GET)
-    public ModelAndView result() {
+    public ModelAndView result(Long counter) {
+        if (battleJob.inProgress) {
+            return new ModelAndView("result/progress", [counter: counter ?: 0])
+        }
         def player = playerService.currentLoggedInUser
         def best = gameService.getBestStrategies(3)
         if (best.size() > 0) {
