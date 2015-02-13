@@ -28,6 +28,10 @@ idea {
     }
 }
 
+springBoot {
+    mainClass = "blotto.Application"
+}
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -39,6 +43,7 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-aop")
 
     compile("org.codehaus.groovy:groovy-all:2.3.1")
 

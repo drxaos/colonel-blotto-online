@@ -1,5 +1,6 @@
 package blotto.service.app
 
+import blotto.aop.inprogress.DisableIfBattleInProgress
 import blotto.domain.Player
 import blotto.domain.Strategy
 import blotto.errors.ServiceException
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 public class StrategyService {
 
     @Transactional
+    @DisableIfBattleInProgress
     public void updateStrategy(Player player, Strategy strategy) {
         if (!player || !strategy) {
             throw new ServiceException("illegal-arguments")

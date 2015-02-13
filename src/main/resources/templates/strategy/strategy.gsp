@@ -21,9 +21,9 @@
 <form class="strategy__form  text-center" name="form" action="/strategy/update" method="post">
 
     <div class="row">
-        <div class="col-lg-5 col-sm-4 col-xs-2"></div>
+        <div class="col-lg-4 col-sm-4 col-xs-2"></div>
 
-        <div class="col-lg-2 col-sm-4 col-xs-8 strategy__container">
+        <div class="col-lg-4 col-sm-4 col-xs-8 strategy__container">
 
             <div class="row ">
 
@@ -99,7 +99,7 @@
 
         </div>
 
-        <div class="col-lg-5 col-sm-4 col-xs-2"></div>
+        <div class="col-lg-4 col-sm-4 col-xs-2"></div>
     </div>
 
     <br>

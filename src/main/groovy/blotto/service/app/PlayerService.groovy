@@ -1,5 +1,6 @@
 package blotto.service.app
 
+import blotto.aop.inprogress.DisableIfBattleInProgress
 import blotto.domain.Player
 import blotto.errors.UserAlreadyExists
 import groovy.util.logging.Log4j
@@ -23,6 +24,7 @@ public class PlayerService {
     }
 
     @Transactional
+    @DisableIfBattleInProgress
     public Player updatePlayer(Player player, String password, String email, String fullName) {
         if (!player) {
             throw new IllegalArgumentException("wrong-args")
@@ -36,7 +38,7 @@ public class PlayerService {
 
     @Transactional
     public List listPlayers(Player forPlayer) {
-        Player.findAll("from Player p order by p.score, p.position, p.strategyUpdated", [:], [max: 1000])
+        Player.findAll("from Player p order by p.score desc, p.position asc, p.strategyUpdated desc", [:], [max: 1000])
     }
 
     public Player getCurrentLoggedInUser() {
