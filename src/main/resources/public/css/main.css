@@ -44,3 +44,8 @@ input .quantity {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.has-error input, input.has-error {
+    background-color: rgba(246, 226, 226, 0.68);
+}
+

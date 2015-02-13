@@ -24,15 +24,43 @@ BUS.on("page.alert", function (event, data) {
         var selected = false;
         for (var i in data.fields) {
             var f = data.fields[i];
-            var $formGroup = $('input[name="' + f.name + '"]').closest(".form-group");
-            $formGroup.removeClass("has-error")
-                .removeClass("has-success")
-                .removeClass("has-info")
-                .removeClass("has-warning")
-                .removeClass("has-none");
-            $formGroup.addClass("has-" + type);
-            $formGroup.find(".help-block").text(f.message);
-            $formGroup.find("input").focus().select()
+            var $input = $('input[name="' + f.name + '"]');
+            var $formGroup = $input.closest(".form-group");
+            if ($formGroup.size() > 0) {
+                $formGroup.removeClass("has-error")
+                    .removeClass("has-success")
+                    .removeClass("has-info")
+                    .removeClass("has-warning")
+                    .removeClass("has-none")
+                    .addClass("has-" + type);
+                $formGroup.find(".help-block").text(f.message);
+                $input.focus().select()
+            } else {
+                $input
+                    .removeClass("has-success")
+                    .removeClass("has-info")
+                    .removeClass("has-warning")
+                    .removeClass("has-none")
+                    .addClass("has-" + type);
+            }
+            $input.unbind("change").change(function () {
+                var $input = $(this);
+                var $formGroup = $input.closest(".form-group");
+                if ($formGroup.size() > 0) {
+                    $formGroup.removeClass("has-error")
+                        .removeClass("has-success")
+                        .removeClass("has-info")
+                        .removeClass("has-warning")
+                        .removeClass("has-none");
+                    $formGroup.find(".help-block").text("");
+                } else {
+                    $input.removeClass("has-error")
+                        .removeClass("has-success")
+                        .removeClass("has-info")
+                        .removeClass("has-warning")
+                        .removeClass("has-none");
+                }
+            });
         }
     }
 
