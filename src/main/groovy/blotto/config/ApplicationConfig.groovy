@@ -5,3 +5,5 @@ package blotto.config
 //datasource.url="jdbc:mysql://localhost/dbname"
 //datasource.driver="com.mysql.jdbc.Driver"
 
+server.port = 9987
+

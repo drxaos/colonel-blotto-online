@@ -1,5 +1,6 @@
 package blotto.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer
 import org.springframework.boot.context.embedded.ErrorPage
@@ -16,6 +17,9 @@ import java.util.concurrent.TimeUnit
 @Configuration
 public class ServerConfiguration implements EmbeddedServletContainerCustomizer {
 
+    @Value('${server.port:8080}')
+    int port
+
     @Bean
     public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
         return new ServerConfiguration();
@@ -25,7 +29,7 @@ public class ServerConfiguration implements EmbeddedServletContainerCustomizer {
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
         TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) configurableEmbeddedServletContainer;
 
-        tomcat.setPort(9987)
+        tomcat.setPort(port)
 
         tomcat.setSessionTimeout(120, TimeUnit.MINUTES);
 

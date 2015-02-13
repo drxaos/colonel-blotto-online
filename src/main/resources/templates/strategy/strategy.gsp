@@ -21,85 +21,85 @@
 <form class="strategy__form  text-center" name="form" action="/strategy/update" method="post">
 
     <div class="row">
-        <div class="col-md-4"></div>
+        <div class="col-lg-5 col-sm-4 col-xs-2"></div>
 
-        <div class="col-md-4 strategy__container">
+        <div class="col-lg-2 col-sm-4 col-xs-8 strategy__container">
 
             <div class="row ">
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f1"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f1}" name="f1"
+                           min="0" max="100" step="1" value="${strategy.f1}" name="f1"
                            onkeypress="return isNumberKey(event)">
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f2"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f2}" name="f2"
+                           min="0" max="100" step="1" value="${strategy.f2}" name="f2"
                            onkeypress="return isNumberKey(event)">
                 </div>
 
-                <div class="col-sm-4 ">
+                <div class="col-xs-4 ">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f3"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f3}" name="f3"
+                           min="0" max="100" step="1" value="${strategy.f3}" name="f3"
                            onkeypress="return isNumberKey(event)">
                 </div>
             </div>
 
             <div class="row">
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f4"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f4}" name="f4"
+                           min="0" max="100" step="1" value="${strategy.f4}" name="f4"
                            onkeypress="return isNumberKey(event)">
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f5"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f5}" name="f5"
+                           min="0" max="100" step="1" value="${strategy.f5}" name="f5"
                            onkeypress="return isNumberKey(event)">
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f6"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f6}" name="f6"
+                           min="0" max="100" step="1" value="${strategy.f6}" name="f6"
                            onkeypress="return isNumberKey(event)">
                 </div>
             </div>
 
             <div class="row">
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f7"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f7}" name="f7"
+                           min="0" max="100" step="1" value="${strategy.f7}" name="f7"
                            onkeypress="return isNumberKey(event)">
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f8"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f8}" name="f8"
+                           min="0" max="100" step="1" value="${strategy.f8}" name="f8"
                            onkeypress="return isNumberKey(event)">
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-xs-4">
                     <input class="form-control input-sm  strategy__field" onblur="findTotal()" id="f9"
                            type="number"
-                           min="0" max="100" step="1" value="${player.strategy.f9}" name="f9"
+                           min="0" max="100" step="1" value="${strategy.f9}" name="f9"
                            onkeypress="return isNumberKey(event)">
                 </div>
             </div>
 
         </div>
 
-        <div class="col-md-4"></div>
+        <div class="col-lg-5 col-sm-4 col-xs-2"></div>
     </div>
 
     <br>

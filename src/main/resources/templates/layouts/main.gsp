@@ -64,9 +64,9 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <p class="navbar-text ellipsis" style="max-width: 35ex; color: #ffffff">
+                                <a class="navbar-link ellipsis" style="max-width: 35ex; color: #ffffff">
                                     [<sec:loggedInUsername/>]
-                                </p>
+                                </a>
                             </li>
                             <li>
                                 <a href="/signout" class="navbar-link" style="text-decoration: underline">Выход</a>
@@ -81,6 +81,13 @@
         <div class="alertsHolder__container" style="height: 1px"></div>
 
         <g:layoutBody/>
+
+        <footer class="footer">
+            <div class="container text-center">
+                Colonel Blotto Online <a href="https://github.com/drxaos/colonel-blotto-online"
+                                         target="_blank">Github</a>
+            </div>
+        </footer>
 
     </div>
 
