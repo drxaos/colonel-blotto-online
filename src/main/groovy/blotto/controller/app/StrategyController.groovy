@@ -6,6 +6,7 @@ import blotto.domain.Strategy
 import blotto.service.app.PlayerService
 import blotto.service.app.StrategyService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -19,6 +20,9 @@ public class StrategyController extends AbstractMvcController {
     PlayerService playerService
     @Autowired
     StrategyService strategyService
+
+    @Autowired
+    ApplicationContext applicationContext
 
     @RequestMapping(value = ["/strategy", "/"], method = RequestMethod.GET)
     public ModelAndView strategy() {

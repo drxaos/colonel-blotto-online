@@ -17,6 +17,7 @@ class ActionAnswer {
     def data
 
     def leftShift(FieldError fieldError) {
+        this.fields.removeAll { it.name == fieldError.name }
         this.fields << fieldError
         return this
     }

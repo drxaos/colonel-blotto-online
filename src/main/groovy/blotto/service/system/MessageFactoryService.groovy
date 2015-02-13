@@ -24,7 +24,18 @@ public class MessageFactoryService {
     private static List getCodes(String path, String type, value) {
         def codes = []
         if (value) {
-            if (value instanceof Exception) {
+            if (value instanceof CmdErrors) {
+                Class exClass = value.class
+                value.errors.allErrors.each {
+                    if (it instanceof org.springframework.validation.FieldError) {
+                        codes << "controller.${path}.${type}.${exClass.simpleName}.${it.field}"
+                    }
+                }
+                while (exClass) {
+                    codes << "controller.${path}.${type}.${exClass.simpleName}"
+                    exClass = exClass.getSuperclass()
+                }
+            } else if (value instanceof Exception) {
                 Class exClass = value.class
                 while (exClass) {
                     codes << "controller.${path}.${type}.${exClass.simpleName}.${normalizeMessage(value.message)}"
@@ -42,15 +53,10 @@ public class MessageFactoryService {
         return codes
     }
 
-    private searchMessage(Class controllerClass, String actionName, String type,
-                          def value = null, def data = null) {
+    private searchMessage(Class controllerClass, String actionName, String type, def value = null, def data = null) {
 
         if (value == null) {
             return ""
-        }
-
-        if (value instanceof CmdErrors) {
-            return value.cmd.errors.allErrors.first().codes.flatten()
         }
 
         def args = []
@@ -58,8 +64,8 @@ public class MessageFactoryService {
             args = data.args ?: []
         }
 
-        def path = ""
         def codes = []
+        def path = ""
         while (controllerClass != AbstractMvcController.class) {
             path = "${controllerClass.simpleName}.${actionName}"
             codes.addAll(getCodes(path, type, value))
@@ -93,7 +99,7 @@ public class MessageFactoryService {
     }
 
     public FieldError updateFieldMessage(FieldError fieldError) {
-        fieldError.message = searchMessage(fieldError.controller, fieldError.action, "field", fieldError)
+        fieldError.message = searchMessage(fieldError.controller, fieldError.action, "field", fieldError, fieldError.data)
         return fieldError
     }
 
@@ -115,6 +121,13 @@ public class MessageFactoryService {
 
     public ActionAnswer createAnswerFromException(Class controller, String action, Exception e, data = null) {
         def answer = new ActionAnswer(controller: controller, action: action, data: data, alert: "error", code: e)
+        if (e instanceof CmdErrors) {
+            e.errors.allErrors.each {
+                if (it instanceof org.springframework.validation.FieldError) {
+                    answer << createFieldError(answer.controller, answer.action, it.field, "default", it.arguments)
+                }
+            }
+        }
         updateMessage(answer)
         return answer
     }
@@ -125,8 +138,8 @@ public class MessageFactoryService {
         return answer
     }
 
-    public FieldError createFieldError(Class controller, String action, String fieldName, String errorCode) {
-        def fe = new FieldError(controller: controller, action: action, code: errorCode, name: fieldName)
+    public FieldError createFieldError(Class controller, String action, String fieldName, String errorCode, data = null) {
+        def fe = new FieldError(controller: controller, action: action, code: errorCode, name: fieldName, data: data)
         updateFieldMessage(fe)
         return fe
     }

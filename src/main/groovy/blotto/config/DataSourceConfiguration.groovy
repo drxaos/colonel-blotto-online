@@ -1,6 +1,7 @@
 package blotto.config
 
 import groovy.util.logging.Log4j
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.datasource.SimpleDriverDataSource
@@ -15,13 +16,22 @@ import java.sql.Driver
 @Configuration
 public class DataSourceConfiguration {
 
+    @Value('${datasource.username:root}')
+    String username
+    @Value('${datasource.password:root}')
+    String password
+    @Value('${datasource.url:jdbc:mysql://localhost/blotto}')
+    String url
+    @Value('${datasource.driver:com.mysql.jdbc.Driver}')
+    String driver
+
     @Bean
     public DataSource dataSource() {
         SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource()
-        simpleDriverDataSource.setPassword("root")
-        simpleDriverDataSource.setUrl("jdbc:mysql://localhost/blotto")
-        simpleDriverDataSource.setUsername("root")
-        simpleDriverDataSource.setDriverClass((Class<Driver>) Class.forName("com.mysql.jdbc.Driver"));
+        simpleDriverDataSource.setPassword(password)
+        simpleDriverDataSource.setUrl(url)
+        simpleDriverDataSource.setUsername(username)
+        simpleDriverDataSource.setDriverClass((Class<Driver>) Class.forName(driver));
         return simpleDriverDataSource
     }
 

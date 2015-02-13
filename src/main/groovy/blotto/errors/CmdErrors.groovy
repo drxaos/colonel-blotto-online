@@ -1,11 +1,13 @@
 package blotto.errors
 
-class CmdErrors extends ServiceException {
-    def cmd
+import org.springframework.validation.BeanPropertyBindingResult
 
-    CmdErrors(cmd) {
+class CmdErrors extends ServiceException {
+    BeanPropertyBindingResult errors
+
+    CmdErrors(BeanPropertyBindingResult errors) {
         super("illegal-arguments")
-        this.cmd = cmd
-        //cmd.errors.allErrors.codes.flatten()
+        this.errors = errors
+        //errors.allErrors.codes.flatten()
     }
 }

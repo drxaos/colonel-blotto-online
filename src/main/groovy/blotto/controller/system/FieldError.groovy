@@ -2,12 +2,13 @@ package blotto.controller.system
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@JsonIgnoreProperties(value = ["controller", "action", "code"])
+@JsonIgnoreProperties(value = ["controller", "action", "code", "data"])
 class FieldError {
 
     Class controller
     String action
     def code = ""
+    def data
 
     String name = ""
     String message
