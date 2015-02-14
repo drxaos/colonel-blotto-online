@@ -48,14 +48,21 @@ public class AbstractJob {
         }
     }
 
-    Date getNextRun(){
+    Date getNextRun() {
         // TODO find closest with CronSequenceGenerator
-        new CronSequenceGenerator("").next(new Date())
-        return new Date()
+        def expressions = getCronAnnotations()
+        def next = null
+        expressions.each { exp ->
+            def d = new CronSequenceGenerator(exp).next(new Date())
+            if (!next || next > d) {
+                next = d
+            }
+        }
+        return next
     }
 
-    private List<Method> getMethodsAnnotatedWithScheduled() {
-        final List<Method> methods = new ArrayList<Method>();
+    private List<String> getCronAnnotations() {
+        final List<String> expressions = new ArrayList<String>();
         Class<?> klass = this.class;
         while (klass != Object.class) {
             // need to iterated thought hierarchy in order to retrieve methods from above the current instance
@@ -65,13 +72,13 @@ public class AbstractJob {
                 if (method.isAnnotationPresent(Scheduled.class)) {
                     Scheduled annotInstance = method.getAnnotation(Scheduled.class);
                     if (annotInstance.cron()) {
-                        methods.add(method);
+                        expressions.add(annotInstance.cron());
                     }
                 }
             }
             // move to the upper class in the hierarchy in search for more methods
             klass = klass.getSuperclass();
         }
-        return methods;
+        return expressions;
     }
 }

@@ -1,9 +1,9 @@
 package blotto.config
 
-//datasource.username="username"
-//datasource.password="password"
-//datasource.url="jdbc:mysql://localhost/dbname"
-//datasource.driver="com.mysql.jdbc.Driver"
+//datasource.username="sa"
+//datasource.password="sa"
+//datasource.url="jdbc:h2:file:~/testdb"
+//datasource.driver="org.h2.Driver"
 
 server.port = 9987
 
