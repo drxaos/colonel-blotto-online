@@ -29,4 +29,9 @@ public class GameService {
         }
         return elapsed
     }
+
+    @Transactional
+    public void runBattle() {
+        println "Hello world"
+    }
 }

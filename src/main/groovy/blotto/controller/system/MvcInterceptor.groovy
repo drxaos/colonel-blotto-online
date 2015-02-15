@@ -43,7 +43,7 @@ public class MvcInterceptor extends HandlerInterceptorAdapter {
                 def targetController = ((AbstractMvcController) handler.bean)
                 def player = playerService.currentLoggedInUser
                 def result = modelAndView
-                if(handler?.method?.returnType == ActionAnswer){
+                if (handler?.method?.returnType == ActionAnswer) {
                     result = targetController.actionOutput
                 }
                 log.debug("${player?.username}(${request?.session?.id})<< ${request?.requestURI} :: ${result}")

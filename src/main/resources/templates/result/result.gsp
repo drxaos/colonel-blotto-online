@@ -76,6 +76,9 @@
 
     <div class="col-sm-9 col-xs-10">
         <h1>Следующее сражение через <span class="results__clock"></span></h1>
+        <div class="result__refreshContainer">
+            <g:render template="result/refresh"/>
+        </div>
     </div>
 
     <div class="col-sm-1 col-xs-1"></div>
@@ -84,14 +87,18 @@
 <script>
 
     var next = "${next}";
-    $('.results__clock').text(toHHMMSS(next));
 
-    setInterval(function () {
+    function updateClock () {
+        $('.results__clock').text(toHHMMSS(next));
+        if(next <= 0){
+            $(".result__refreshContainer").fadeIn();
+        }
         if (next > 0) {
             next--;
         }
-        $('.results__clock').text(toHHMMSS(next));
-    }, 1000);
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 
 </script>
 

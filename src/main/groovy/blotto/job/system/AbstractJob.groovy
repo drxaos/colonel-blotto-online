@@ -1,8 +1,10 @@
 package blotto.job.system
 
 import groovy.util.logging.Log4j
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.support.CronSequenceGenerator
+import org.springframework.transaction.PlatformTransactionManager
 
 import java.lang.reflect.Method
 
@@ -11,6 +13,9 @@ public class AbstractJob {
     final private lock = [inProgress: false]
     private Date lastStart = null
     private Date lastEnd = null
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     public boolean isInProgress() {
         synchronized (lock) {
@@ -49,7 +54,6 @@ public class AbstractJob {
     }
 
     Date getNextRun() {
-        // TODO find closest with CronSequenceGenerator
         def expressions = getCronAnnotations()
         def next = null
         expressions.each { exp ->

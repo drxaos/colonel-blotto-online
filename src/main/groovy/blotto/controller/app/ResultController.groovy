@@ -33,7 +33,7 @@ public class ResultController extends AbstractMvcController {
             }
         }
         def next = gameService.getNextBattle()
-        return new ModelAndView("result/result", [best: best, player: player, next: next])
+        return new ModelAndView("result/result", [best: best, player: player, next: next, counter: counter ?: 0])
     }
 
 }
