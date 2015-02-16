@@ -59,6 +59,8 @@ dependencies {
     runtime("com.h2database:h2")
     runtime("mysql:mysql-connector-java:5.1.34")
 
+    compile("org.liquibase:liquibase-core")
+
     compile("org.apache.tomcat.embed:tomcat-embed-el")
     testCompile("junit:junit")
 }
