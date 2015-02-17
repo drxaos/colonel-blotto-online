@@ -1,16 +1,11 @@
 package blotto.config
 
-import liquibase.integration.spring.SpringLiquibase
+import blotto.utils.liquibase.ReleasingLiquibase
 import liquibase.servicelocator.ServiceLocator
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.AutoConfigureAfter
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.liquibase.CommonsLoggingLiquibaseLogger
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader
 import org.springframework.util.Assert
@@ -18,11 +13,8 @@ import org.springframework.util.Assert
 import javax.annotation.PostConstruct
 import javax.sql.DataSource
 
-@Configuration
-@ConditionalOnClass(SpringLiquibase)
-@ConditionalOnBean([DataSource, ResourceLoader])
-@ConditionalOnProperty(prefix = "liquibase", name = "enabled", matchIfMissing = true)
-@AutoConfigureAfter(DataSourceAutoConfiguration)
+//@Configuration
+@ConditionalOnClass(ReleasingLiquibase)
 public class LiquibaseConfiguration {
 
     @Autowired
@@ -42,8 +34,8 @@ public class LiquibaseConfiguration {
     }
 
     @Bean
-    public SpringLiquibase liquibase() {
-        SpringLiquibase liquibase = new SpringLiquibase();
+    public ReleasingLiquibase liquibase() {
+        ReleasingLiquibase liquibase = new ReleasingLiquibase();
         liquibase.setChangeLog(changelog);
         liquibase.setDataSource(dataSource);
         return liquibase;
