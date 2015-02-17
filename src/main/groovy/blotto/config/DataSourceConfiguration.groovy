@@ -31,7 +31,7 @@ public class DataSourceConfiguration {
         simpleDriverDataSource.setPassword(password)
         simpleDriverDataSource.setUrl(url)
         simpleDriverDataSource.setUsername(username)
-        simpleDriverDataSource.setDriverClass((Class<Driver>) Class.forName(driver));
+        simpleDriverDataSource.setDriverClass((Class<Driver>) Class.forName(driver))
         return simpleDriverDataSource
     }
 

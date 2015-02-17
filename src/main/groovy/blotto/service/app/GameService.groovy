@@ -32,6 +32,13 @@ public class GameService {
 
     @Transactional
     public void runBattle() {
-        println "Hello world"
+        log.info("Battle job start")
+        Player.withTransaction {
+            Player.executeUpdate("update Player p set p.position = case when (" +
+                    "p.strategy.f1 + p.strategy.f2 + p.strategy.f3 +" +
+                    "p.strategy.f4 + p.strategy.f5 + p.strategy.f6 +" +
+                    "p.strategy.f7 + p.strategy.f8 + p.strategy.f9 = 100 ) then 0 else -1 end")
+        }
+        log.info("Battle job end")
     }
 }

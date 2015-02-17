@@ -12,6 +12,7 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'spring-boot'
 apply plugin: 'idea'
@@ -21,10 +22,16 @@ jar {
     version = '0.1'
 }
 
+configurations {
+    provided
+    provided.extendsFrom(compile)
+}
+
 idea {
     module {
         inheritOutputDirs = false
         outputDir = file("$buildDir/classes/main/")
+        scopes.PROVIDED.plus += configurations.provided
     }
 }
 
@@ -63,6 +70,10 @@ dependencies {
 
     compile("org.apache.tomcat.embed:tomcat-embed-el")
     testCompile("junit:junit")
+
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'javax.servlet.jsp.jstl:jstl:1.2'
+    compile 'taglibs:standard:1.1.2'
 }
 
 task wrapper(type: Wrapper) {
