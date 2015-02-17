@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.liquibase.CommonsLoggingLiquibaseLogger
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader
 import org.springframework.util.Assert
@@ -23,7 +24,7 @@ public class LiquibaseConfiguration {
     @Autowired
     DataSource dataSource
 
-    String changelog = "classpath:/db/changelog/changelog.xml"
+    String changelog = "classpath:/liquibase/changelog.xml"
 
     @PostConstruct
     public void checkChangelogExists() {

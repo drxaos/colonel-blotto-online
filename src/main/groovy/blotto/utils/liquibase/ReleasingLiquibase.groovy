@@ -4,10 +4,17 @@ import liquibase.CatalogAndSchema
 import liquibase.Contexts
 import liquibase.LabelExpression
 import liquibase.Liquibase
+import liquibase.command.CommandExecutionException
+import liquibase.command.DiffToChangeLogCommand
 import liquibase.database.Database
+import liquibase.diff.compare.CompareControl
 import liquibase.diff.output.DiffOutputControl
 import liquibase.diff.output.changelog.DiffToChangeLog
 import liquibase.exception.LiquibaseException
+import liquibase.ext.hibernate.database.HibernateSpringDatabase
+import liquibase.ext.hibernate.database.connection.HibernateConnection
+import liquibase.ext.hibernate.database.connection.HibernateDriver
+import liquibase.integration.commandline.CommandLineUtils
 import liquibase.integration.spring.SpringLiquibase
 import liquibase.serializer.ChangeLogSerializer
 import liquibase.serializer.ChangeLogSerializerFactory
@@ -71,7 +78,37 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
         PrintStream printStream = new PrintStream(output)
         ChangeLogSerializer changeLogSerializer = ChangeLogSerializerFactory.instance.getSerializer("xml")
 
-        liquibase.generateChangeLog(catalogAndSchema, diffToChangeLog, printStream, changeLogSerializer)
+        DiffToChangeLogCommand command = new DiffToChangeLogCommand();
+
+        def refDb = CommandLineUtils.createDatabaseObject(
+                this.class.classLoader,
+                "hibernate:spring:blotto.domain.Player?dialect=org.hibernate.dialect.MySQL5Dialect",
+                "root",
+                "root",
+                HibernateDriver.class.name,
+                "blotto",
+                "blotto",
+                true,
+                true,
+                HibernateSpringDatabase.class.name,
+                null,
+                null,
+                null,
+                null,
+        )
+
+        command.setReferenceDatabase(refDb)
+                .setTargetDatabase(database)
+                .setCompareControl(new CompareControl())
+                .setOutputStream(System.out);
+        command.setChangeLogFile(output.absolutePath)
+                .setDiffOutputControl(diffOutputControl);
+
+        try {
+            command.execute();
+        } catch (CommandExecutionException e) {
+            throw new LiquibaseException(e);
+        }
 
     }
 

@@ -67,6 +67,7 @@ dependencies {
     runtime("mysql:mysql-connector-java:5.1.34")
 
     compile("org.liquibase:liquibase-core")
+    compile("org.liquibase.ext:liquibase-hibernate4:3.5")
 
     compile("org.apache.tomcat.embed:tomcat-embed-el")
     testCompile("junit:junit")
