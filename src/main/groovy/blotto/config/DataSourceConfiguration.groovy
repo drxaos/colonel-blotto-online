@@ -1,6 +1,9 @@
 package blotto.config
 
+import blotto.Application
 import groovy.util.logging.Log4j
+import liquibase.Contexts
+import liquibase.integration.spring.SpringLiquibase
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,6 +30,8 @@ public class DataSourceConfiguration {
     @Value('${datasource.driver:com.mysql.jdbc.Driver}')
     String driver
 
+    String changelog = "classpath:/liquibase/changelog-classpath.xml"
+
     @Bean
     public DataSource dataSource() {
         SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource()
@@ -35,6 +40,16 @@ public class DataSourceConfiguration {
         simpleDriverDataSource.setUsername(username)
         simpleDriverDataSource.setDriverClass((Class<Driver>) Class.forName(driver))
         return simpleDriverDataSource
+    }
+
+    @Bean
+    public SpringLiquibase liquibase(DataSource dataSource) {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog(changelog);
+        liquibase.setDataSource(dataSource);
+        liquibase.setDropFirst(false);
+        liquibase.setShouldRun(Application.params.contains("migrate"));
+        return liquibase;
     }
 
 }
