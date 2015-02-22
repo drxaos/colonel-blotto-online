@@ -18,7 +18,7 @@ public class GameService {
 
     @Transactional
     public List<Strategy> getBestStrategies(int count) {
-        Player.findAll("from Player p where p.position > 0 and p.position <= :maxPos order by p.position asc, p.wins desc, p.loses asc, p.strategyUpdated desc", [maxPos: count], [max: count]).strategy
+        Player.findAll("from Player p where p.position > 0 and p.position <= :maxPos order by p.position asc, p.wins desc, p.loses asc, p.strategyLastUpdated desc", [maxPos: count], [max: count]).strategy
     }
 
     public int getNextBattle() {

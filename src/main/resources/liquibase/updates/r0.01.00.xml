@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="xaos" id="r0.01.00-1">
+        <createTable tableName="player">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_8"/>
+            </column>
+            <column name="version" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="draws" type="INT(10)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="loses" type="INT(10)"/>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="INT(10)"/>
+            <column name="score" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f1" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f2" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f3" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f4" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f5" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f6" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f7" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f8" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_f9" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strategy_updated" type="TIMESTAMP"/>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wins" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.00-2">
+        <addUniqueConstraint columnNames="full_name" constraintName="uk_9glopf0unn9e6uytmk75tox52" deferrable="false" disabled="false" initiallyDeferred="false" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.00-3">
+        <addUniqueConstraint columnNames="username" constraintName="uk_o39xn8lmj05iew7d2tgw836jy" deferrable="false" disabled="false" initiallyDeferred="false" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.00-4">
+        <addUniqueConstraint columnNames="email" constraintName="uk_oivbimcon0iqmb8efpv723h08" deferrable="false" disabled="false" initiallyDeferred="false" tableName="player"/>
+    </changeSet>
+</databaseChangeLog>

@@ -2,6 +2,7 @@ package blotto.job.system
 
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.support.CronSequenceGenerator
 import org.springframework.transaction.PlatformTransactionManager
@@ -9,6 +10,7 @@ import org.springframework.transaction.PlatformTransactionManager
 import java.lang.reflect.Method
 
 @Log4j
+@Profile(["dev", "prod"])
 public class AbstractJob {
     final private lock = [inProgress: false]
     private Date lastStart = null

@@ -14,9 +14,22 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application {
 
+    private static params = []
+
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(Application.class);
+        if (args.length >= 1) {
+            app.setAdditionalProfiles(args[0])
+            for (int i = 1; i < args.length; i++) {
+                params << args[i]
+            }
+        }
         app.run(args);
     }
 
+    public static List getParams() {
+        def res = []
+        res.addAll(params)
+        return res
+    }
 }

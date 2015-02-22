@@ -16,7 +16,7 @@ class Player {
     String email
 
     Strategy strategy = new Strategy()
-    Date strategyUpdated
+    Date strategyLastUpdated
 
     Integer score = 0
 
@@ -34,7 +34,7 @@ class Player {
         fullName nullable: false, blank: false, unique: true
         email nullable: false, blank: false, unique: true
 
-        strategyUpdated nullable: true
+        strategyLastUpdated nullable: true
 
         score nullable: false, min: 0
         position nullable: true

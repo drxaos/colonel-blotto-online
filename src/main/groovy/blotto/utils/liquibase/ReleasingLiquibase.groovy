@@ -1,50 +1,47 @@
 package blotto.utils.liquibase
 
+import blotto.Application
+import groovy.io.FileType
 import liquibase.CatalogAndSchema
 import liquibase.Contexts
-import liquibase.LabelExpression
 import liquibase.Liquibase
-import liquibase.command.CommandExecutionException
-import liquibase.command.DiffToChangeLogCommand
 import liquibase.database.Database
+import liquibase.database.DatabaseFactory
+import liquibase.database.jvm.JdbcConnection
+import liquibase.diff.DiffGeneratorFactory
+import liquibase.diff.DiffResult
 import liquibase.diff.compare.CompareControl
 import liquibase.diff.output.DiffOutputControl
 import liquibase.diff.output.changelog.DiffToChangeLog
+import liquibase.exception.DatabaseException
 import liquibase.exception.LiquibaseException
-import liquibase.ext.hibernate.database.HibernateSpringDatabase
-import liquibase.ext.hibernate.database.connection.HibernateConnection
-import liquibase.ext.hibernate.database.connection.HibernateDriver
-import liquibase.integration.commandline.CommandLineUtils
 import liquibase.integration.spring.SpringLiquibase
-import liquibase.serializer.ChangeLogSerializer
-import liquibase.serializer.ChangeLogSerializerFactory
+import liquibase.resource.ResourceAccessor
+import liquibase.util.StringUtils
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 
+import javax.sql.DataSource
 import java.sql.Connection
 
 class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
-
-    /* TODO
-     *
-     * Generate diff between db and domain model and put as new release in changelog
-     * Migrate db with changelog
-     * Export release from changelog to sql
-     *
-     */
 
     String releaseName
 
     @Autowired
     ApplicationContext applicationContext
 
-    private boolean includeSchema = true;
-    private boolean includeCatalog = true;
-    private boolean includeTablespace = true;
+    @Autowired
+    DataSource dataSourceLiquibase
+
+    @Autowired
+    DataSource dataSource
 
     @Override
     public void afterPropertiesSet() throws LiquibaseException {
+
+        def cfg = applicationContext.getBean("&sessionFactory").configuration
 
         releaseName = applicationContext.getEnvironment().getProperty("application.version", "snapshot-" + (new Date()).format("yyyy-MM-dd"))
 
@@ -52,99 +49,107 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
         while (!path.list().contains("build.gradle")) {
             path = path.parentFile
         }
-        new File(path.absolutePath + "/src/main/resources/db/changelog/${releaseName}/").mkdirs()
-        def changelog = new File(path.absolutePath + "/src/main/resources/db/changelog/${releaseName}/changelog.xml")
-        def update = new File(path.absolutePath + "/src/main/resources/db/changelog/${releaseName}/update.sql")
-        def rollback = new File(path.absolutePath + "/src/main/resources/db/changelog/${releaseName}/rollback.sql")
+        new File(path.absolutePath + "/src/main/resources/liquibase/updates/").mkdirs()
+        def root = new File(path.absolutePath + "/src/main/resources/liquibase/changelog.xml")
+        def changelog = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}.xml")
+        def updateSql = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}_update.sql")
+        def rollbackSql = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}_rollback.sql")
 
-        Connection c = getDataSource().getConnection()
-        Liquibase liquibase = createLiquibase(c)
+        boolean makeSql = Application.params.contains("sql")
+        boolean makeDiff = Application.params.contains("diff")
 
-        createChangelog(liquibase, changelog)
-        generateUpdateFile(liquibase, update)
-        generateRollbackFile(liquibase, rollback)
-    }
-
-
-    public void createChangelog(Liquibase liquibase, File output) {
-
-        Database database = liquibase.getDatabase()
-        CatalogAndSchema catalogAndSchema =
-                new CatalogAndSchema(database.getDefaultCatalogName(), database.getDefaultSchemaName())
-        DiffOutputControl diffOutputControl =
-                new DiffOutputControl(includeCatalog, includeSchema, includeTablespace)
-        DiffToChangeLog diffToChangeLog = new DiffToChangeLog(diffOutputControl)
-
-        PrintStream printStream = new PrintStream(output)
-        ChangeLogSerializer changeLogSerializer = ChangeLogSerializerFactory.instance.getSerializer("xml")
-
-        DiffToChangeLogCommand command = new DiffToChangeLogCommand();
-
-        def refDb = CommandLineUtils.createDatabaseObject(
-                this.class.classLoader,
-                "hibernate:spring:blotto.domain.Player?dialect=org.hibernate.dialect.MySQL5Dialect",
-                "root",
-                "root",
-                HibernateDriver.class.name,
-                "blotto",
-                "blotto",
-                true,
-                true,
-                HibernateSpringDatabase.class.name,
-                null,
-                null,
-                null,
-                null,
-        )
-
-        command.setReferenceDatabase(refDb)
-                .setTargetDatabase(database)
-                .setCompareControl(new CompareControl())
-                .setOutputStream(System.out);
-        command.setChangeLogFile(output.absolutePath)
-                .setDiffOutputControl(diffOutputControl);
-
-        try {
-            command.execute();
-        } catch (CommandExecutionException e) {
-            throw new LiquibaseException(e);
+        if (makeDiff) {
+            changelog.delete()
+        }
+        if (makeSql) {
+            updateSql.delete()
+            rollbackSql.delete()
         }
 
+        setChangeLog(root.absolutePath);
+
+        Connection c = dataSourceLiquibase.getConnection()
+        Liquibase liquibase = createLiquibase(c, changelog.absolutePath)
+        liquibase.update(new Contexts())
+
+        if (makeDiff) {
+            DiffResult diffResult = DiffGeneratorFactory.instance.compare(
+                    createDatabase(dataSource.getConnection()),
+                    createDatabase(dataSourceLiquibase.getConnection()),
+                    new CompareControl()
+            )
+
+            DiffOutputControl diffOutputConfig = new DiffOutputControl(false, false, false).addIncludedSchema(new CatalogAndSchema("", ""));
+            def converter = new DiffToChangeLog(diffResult, diffOutputConfig)
+            converter.setIdRoot(releaseName)
+            converter.setChangeSetAuthor(System.getProperty("user.name") ?: "unknown")
+            converter.print(new PrintStream(changelog.newOutputStream()));
+        }
+
+        if (makeSql) {
+            liquibase = createLiquibase(c, "")
+            liquibase.update(new Contexts(), new PrintWriter(updateSql))
+            liquibase.futureRollbackSQL(null, new PrintWriter(rollbackSql))
+        }
     }
 
-    public void generateRollbackFile(Liquibase liquibase, File outFile) throws LiquibaseException {
-        FileWriter output = new FileWriter(outFile)
-        try {
-            liquibase.futureRollbackSQL(null, new Contexts(getContexts()), new LabelExpression(getLabels()), output);
-        } catch (IOException e) {
-            throw new LiquibaseException("Unable to generate rollback file.", e);
-        } finally {
-            try {
-                if (output != null) {
-                    output.close();
-                }
-            } catch (IOException e) {
-                log.severe("Error closing output", e);
+    protected Liquibase createLiquibase(Connection c, String excludePath) throws LiquibaseException {
+        Liquibase liquibase = new Liquibase(getChangeLog(), new FileOpener(excludePath), createDatabase(c));
+
+        liquibase.setIgnoreClasspathPrefix(isIgnoreClasspathPrefix());
+        if (parameters != null) {
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                liquibase.setChangeLogParameter(entry.getKey(), entry.getValue());
             }
         }
+
+        if (isDropFirst()) {
+            liquibase.dropAll();
+        }
+
+        return liquibase;
     }
 
+    protected Database createDatabase(Connection c) throws DatabaseException {
+        Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(c));
+        if (StringUtils.trimToNull(this.defaultSchema) != null) {
+            database.setDefaultSchemaName(this.defaultSchema);
+        }
+        database.setOutputDefaultSchema(false)
+        database.setOutputDefaultCatalog(false)
+        return database;
+    }
+}
 
-    public void generateUpdateFile(Liquibase liquibase, File outFile) throws LiquibaseException {
-        FileWriter output = new FileWriter(outFile)
-        try {
-            liquibase.update(Integer.MAX_VALUE, new Contexts(getContexts()), new LabelExpression(getLabels()), output);
-        } catch (IOException e) {
-            throw new LiquibaseException("Unable to generate update file.", e);
-        } finally {
-            try {
-                if (output != null) {
-                    output.close();
-                }
-            } catch (IOException e) {
-                log.severe("Error closing output", e);
+
+public class FileOpener implements ResourceAccessor {
+
+    String excludePath
+
+    FileOpener(String excludePath) {
+        this.excludePath = excludePath
+    }
+
+    @Override
+    Set<InputStream> getResourcesAsStream(String path) throws IOException {
+        return [new File(path).newInputStream()] as Set
+    }
+
+    @Override
+    Set<String> list(String relativeTo, String path, boolean includeFiles, boolean includeDirectories, boolean recursive) throws IOException {
+        def list = []
+
+        new File(new File(relativeTo ?: ".").parentFile.absolutePath + "/" + path).eachFileRecurse(FileType.FILES) { File file ->
+            if (file.name.endsWith(".xml") && file.absolutePath != excludePath) {
+                list << file.absolutePath
             }
         }
+
+        return list as Set
     }
 
+    @Override
+    ClassLoader toClassLoader() {
+        return null
+    }
 }

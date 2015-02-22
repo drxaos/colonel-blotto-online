@@ -22,21 +22,18 @@ jar {
     version = '0.1'
 }
 
-configurations {
-    provided
-    provided.extendsFrom(compile)
+springBoot {
+    mainClass = "blotto.Application"
 }
 
 idea {
     module {
         inheritOutputDirs = false
         outputDir = file("$buildDir/classes/main/")
-        scopes.PROVIDED.plus += configurations.provided
+        scopes.COMPILE.plus += [configurations.compile]
+        downloadJavadoc = false
+        downloadSources = true
     }
-}
-
-springBoot {
-    mainClass = "blotto.Application"
 }
 
 repositories {
@@ -48,6 +45,8 @@ repositories {
 }
 
 dependencies {
+    compile files("src/main/resources")
+
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-aop")

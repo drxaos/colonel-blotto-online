@@ -38,7 +38,7 @@ public class PlayerService {
 
     @Transactional
     public List listPlayers(Player forPlayer) {
-        Player.findAll("from Player p order by p.score desc, p.position asc, p.strategyUpdated desc", [:], [max: 1000])
+        Player.findAll("from Player p order by p.score desc, p.position asc, p.strategyLastUpdated desc", [:], [max: 1000])
     }
 
     public Player getCurrentLoggedInUser() {

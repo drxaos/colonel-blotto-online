@@ -5,6 +5,7 @@ import blotto.service.app.PlayerService
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
+import org.springframework.context.annotation.Profile
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Log4j
 @Component
+@Profile(["dev", "prod"])
 public class ApplicationBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private boolean initialized = false;
