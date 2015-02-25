@@ -52,8 +52,8 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
         new File(path.absolutePath + "/src/main/resources/liquibase/updates/").mkdirs()
         def root = new File(path.absolutePath + "/src/main/resources/liquibase/changelog.xml")
         def changelog = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}.xml")
-        def updateSql = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}_update.sql")
-        def rollbackSql = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}_rollback.sql")
+        def updateSql = new File(path.absolutePath + "/src/main/resources/liquibase/sql/${releaseName}_update.sql")
+        def rollbackSql = new File(path.absolutePath + "/src/main/resources/liquibase/sql/${releaseName}_rollback.sql")
 
         boolean makeSql = Application.params.contains("sql")
         boolean makeDiff = Application.params.contains("diff")

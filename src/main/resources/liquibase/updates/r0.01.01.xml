@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
     <changeSet author="xaos" id="r0.01.01-1">
         <renameColumn
-                columnDataType="timestamp(23, 10)"
+                columnDataType="timestamp"
                 newColumnName="strategy_last_updated"
                 oldColumnName="strategy_updated"
                 tableName="player"/>

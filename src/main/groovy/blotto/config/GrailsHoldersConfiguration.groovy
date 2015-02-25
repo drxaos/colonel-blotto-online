@@ -33,7 +33,7 @@ class GrailsHoldersConfiguration implements ApplicationContextAware, GrailsAppli
                 if (GrailsHoldersConfiguration.grailsApplication == null) {
                     Map<String, GrailsApplication> grailsApplicationBeans = findApplicationContext().getBeansOfType(GrailsApplication.class);
                     if (!grailsApplicationBeans.isEmpty()) {
-                        GrailsHoldersConfiguration.grailsApplication = grailsApplicationBeans.values().iterator().next();
+                        setGrailsApplication(grailsApplicationBeans.values().iterator().next())
                     }
                 }
                 return GrailsHoldersConfiguration.grailsApplication

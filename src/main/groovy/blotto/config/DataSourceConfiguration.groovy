@@ -2,7 +2,6 @@ package blotto.config
 
 import blotto.Application
 import groovy.util.logging.Log4j
-import liquibase.Contexts
 import liquibase.integration.spring.SpringLiquibase
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -44,12 +43,12 @@ public class DataSourceConfiguration {
 
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog(changelog);
-        liquibase.setDataSource(dataSource);
-        liquibase.setDropFirst(false);
-        liquibase.setShouldRun(Application.params.contains("migrate"));
-        return liquibase;
+        SpringLiquibase liquibase = new SpringLiquibase()
+        liquibase.setChangeLog(changelog)
+        liquibase.setDataSource(dataSource)
+        liquibase.setDropFirst(Application.params.contains("dropAll"))
+        liquibase.setShouldRun(Application.params.contains("migrate"))
+        return liquibase
     }
 
 }

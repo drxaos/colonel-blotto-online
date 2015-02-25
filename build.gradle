@@ -74,6 +74,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'javax.servlet.jsp.jstl:jstl:1.2'
     compile 'taglibs:standard:1.1.2'
+
+    compile 'javax.mail:mail:1.4.7'
+
 }
 
 task wrapper(type: Wrapper) {
