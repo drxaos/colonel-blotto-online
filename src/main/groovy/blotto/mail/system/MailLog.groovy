@@ -19,12 +19,13 @@ public class MailLog implements Serializable {
         date nullable: true
         toEmail nullable: true
         subject nullable: true
-        text nullable: true, type: 'text', maxSize: 65535
+        text nullable: true, maxSize: 65535
         sender nullable: true
         view nullable: true
     }
 
     static mapping = {
+        text type: 'text', sqlType: 'text'
         table 'sys_mail_log'
     }
 }
