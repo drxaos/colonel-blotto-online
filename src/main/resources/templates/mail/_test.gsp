@@ -9,9 +9,7 @@
     большем числе полей в битве с каждым другим участником игры!
 </p>
 
-<g:if test="${test}">
-    aaa
-</g:if>
+<g:render template="/mail/footer"/>
 
 </body>
 </html>

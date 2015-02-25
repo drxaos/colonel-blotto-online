@@ -18,5 +18,4 @@ class DummyResponse extends HttpServletResponseWrapper {
     public PrintWriter getWriter() throws IOException {
         return this.writer
     }
-
 }

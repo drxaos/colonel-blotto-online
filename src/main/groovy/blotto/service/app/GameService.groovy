@@ -36,8 +36,7 @@ public class GameService {
 
     @Transactional
     public void runBattle() {
-
-        mailHelper.sendTest("test@example.com", "This is a test message.")
+        mailHelper.sendTest("test@example.ru", "test")
 
         log.info("Battle job start")
         Player.withTransaction {

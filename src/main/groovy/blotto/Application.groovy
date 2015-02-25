@@ -1,5 +1,6 @@
 package blotto
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy
 @EnableAutoConfiguration(exclude = [BasicErrorController, LiquibaseAutoConfiguration])
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application {
+
+    static applicationContext
 
     private static params = []
 
@@ -31,5 +34,9 @@ public class Application {
         def res = []
         res.addAll(params)
         return res
+    }
+
+    public static String resolveValue(String name) {
+        ((ConfigurableBeanFactory) applicationContext.autowireCapableBeanFactory).resolveEmbeddedValue('${' + name + '}')
     }
 }

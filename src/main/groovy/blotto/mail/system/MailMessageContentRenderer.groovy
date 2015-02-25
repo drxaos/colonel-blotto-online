@@ -25,6 +25,7 @@ import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 
@@ -38,13 +39,21 @@ class MailMessageContentRenderer {
     @Autowired
     GroovyPagesTemplateRenderer groovyPagesTemplateRenderer
 
+    @Autowired
+    ApplicationContext applicationContext
+
     def render(Writer out, String templateName, model, locale, String pluginName = null) {
         def pageScope = new GroovyPageBinding()
-        def request = new GrailsWebRequest(new DummyRequest(pageScope), new DummyResponse(new PrintWriter(out)), new DummyServletContext())
+        pageScope.setRoot(true)
+        def writer = new StringWriter()
+        def context = new DummyServletContext()
+        def httpRequest = new DummyRequest(pageScope, context)
+        def httpResponse = new DummyResponse(new PrintWriter(writer))
+        def request = new GrailsWebRequest(httpRequest, httpResponse, context)
         def emptyBinding = new GroovyPageBinding()
         RequestContextHolder.setRequestAttributes(request)
         groovyPagesTemplateRenderer.render(request, emptyBinding, [template: templateName, model: model], "", out)
-        return [out: out.toString(), subject: pageScope.getVariable("subject")]
+        return [out: out.toString(), subject: pageScope.getVariable("MAIL_SUBJECT")]
     }
 
 }

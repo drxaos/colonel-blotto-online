@@ -1,5 +1,6 @@
 package blotto.config
 
+import blotto.Application
 import blotto.utils.GroovyPlaceholderConfigurer
 import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
@@ -33,6 +34,7 @@ class PropertiesConfiguration implements ApplicationContextAware, EnvironmentAwa
     @Override
     void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext
+        Application.applicationContext = applicationContext
     }
 
     @Override

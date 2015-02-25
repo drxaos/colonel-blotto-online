@@ -3,7 +3,9 @@ package blotto.service.app
 import blotto.aop.inprogress.DisableIfBattleInProgress
 import blotto.domain.Player
 import blotto.errors.UserAlreadyExists
+import blotto.mail.app.MailHelper
 import groovy.util.logging.Log4j
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional
 @Log4j
 @Service
 public class PlayerService {
+
+    @Autowired
+    MailHelper mailHelper
 
     @Transactional
     public Player createPlayer(String username, String password, String email, String fullName) {
@@ -21,6 +26,13 @@ public class PlayerService {
         } else {
             throw new UserAlreadyExists(username)
         }
+    }
+
+    @Transactional
+    public Player signUpPlayer(String username, String password, String email, String fullName) {
+        def player = createPlayer(username, password, email, fullName)
+        mailHelper.onSignUp(email, username, password, fullName)
+        return player
     }
 
     @Transactional

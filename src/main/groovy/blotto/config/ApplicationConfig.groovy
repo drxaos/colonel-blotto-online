@@ -19,6 +19,7 @@ environments {
 
 server.port = 9987
 
-server.name = "v-pp.ru"
-
-mail.from = "admin@${server.name}"
+app.host = "blotto.v-pp.ru"
+app.url = "http://${app.host}/"
+app.title = "Игра полковника Блотто"
+mail.from = "admin@${app.host}"
