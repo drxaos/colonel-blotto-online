@@ -3,8 +3,7 @@ package blotto.service.app
 import blotto.domain.Player
 import blotto.domain.Strategy
 import blotto.job.app.BattleJob
-import blotto.mail.MailMessageBuilder
-import blotto.mail.MailService
+import blotto.mail.app.MailHelper
 import groovy.time.TimeCategory
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +18,7 @@ public class GameService {
     BattleJob battleJob
 
     @Autowired
-    MailService mailService
+    MailHelper mailHelper
 
     @Transactional
     public List<Strategy> getBestStrategies(int count) {
@@ -37,13 +36,8 @@ public class GameService {
 
     @Transactional
     public void runBattle() {
-        mailService.sendMail { MailMessageBuilder mail ->
-            mail.to "test@example.com"
-            mail.subject "Тестовое письмо проверки"
-            mail.plainAndHtml(view: "/mail/test", model: [
-                    test: "Hello world!"
-            ])
-        }
+
+        mailHelper.sendTest("test@example.com", "This is a test message.")
 
         log.info("Battle job start")
         Player.withTransaction {
@@ -54,4 +48,5 @@ public class GameService {
         }
         log.info("Battle job end")
     }
+
 }

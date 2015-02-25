@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package blotto.mail
+package blotto.mail.system
 
 import groovy.util.logging.Log4j
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -40,14 +40,14 @@ class MailService implements InitializingBean, DisposableBean {
     @Autowired
     MailMessageBuilderFactory mailMessageBuilderFactory
 
-	ThreadPoolExecutor mailExecutorService
+    ThreadPoolExecutor mailExecutorService
 
-	private static final int DEFAULT_POOL_SIZE = 5
+    private static final int DEFAULT_POOL_SIZE = 5
 
     MailMessage sendMail(def config, Closure callable) {
         if (isDisabled()) {
             log.warn("Sending emails disabled by configuration option")
-            return
+            return null
         }
 
 
@@ -63,6 +63,20 @@ class MailService implements InitializingBean, DisposableBean {
         return sendMail(mailConfig, callable)
     }
 
+    MailMessage send(String to, String view, Map model) {
+        MailMessageBuilder messageBuilder = mailMessageBuilderFactory.createBuilder()
+        messageBuilder.to(to)
+        messageBuilder.plainAndHtml([view: view, model: model])
+        messageBuilder.sendMessage(mailExecutorService)
+    }
+
+    MailMessage send(String from, String to, String view, Map model) {
+        MailMessageBuilder messageBuilder = mailMessageBuilderFactory.createBuilder()
+        messageBuilder.to(to)
+        messageBuilder.from(from)
+        messageBuilder.plainAndHtml([view: view, model: model])
+        messageBuilder.sendMessage(mailExecutorService)
+    }
 
     ConfigObject getMailConfig() {
         grailsApplication.config.grails.mail
@@ -72,27 +86,27 @@ class MailService implements InitializingBean, DisposableBean {
         mailConfig.disabled
     }
 
-	void setPoolSize(Integer poolSize){
-		if(poolSize == null) poolSize = DEFAULT_POOL_SIZE
-		mailExecutorService.setCorePoolSize(poolSize)
-		mailExecutorService.setMaximumPoolSize(poolSize)
-	}
+    void setPoolSize(Integer poolSize) {
+        if (poolSize == null) poolSize = DEFAULT_POOL_SIZE
+        mailExecutorService.setCorePoolSize(poolSize)
+        mailExecutorService.setMaximumPoolSize(poolSize)
+    }
 
-	@Override
-	public void destroy() throws Exception {
-		mailExecutorService.shutdown();
-		mailExecutorService.awaitTermination(10, TimeUnit.SECONDS);
-	}
+    @Override
+    public void destroy() throws Exception {
+        mailExecutorService.shutdown();
+        mailExecutorService.awaitTermination(10, TimeUnit.SECONDS);
+    }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		mailExecutorService = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>());
-		try{
-			((ThreadPoolExecutor)mailExecutorService).allowCoreThreadTimeOut(true)
-		}catch(MissingMethodException e){
-			log.info("ThreadPoolExecutor.allowCoreThreadTimeOut method is missing; Java < 6 must be running. The thread pool size will never go below ${poolSize}, which isn't harmful, just a tiny bit wasteful of resources.", e)
-		}
-		setPoolSize(mailConfig.poolSize?:null)
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        mailExecutorService = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>());
+        try {
+            ((ThreadPoolExecutor) mailExecutorService).allowCoreThreadTimeOut(true)
+        } catch (MissingMethodException e) {
+            log.info("ThreadPoolExecutor.allowCoreThreadTimeOut method is missing; Java < 6 must be running. The thread pool size will never go below ${poolSize}, which isn't harmful, just a tiny bit wasteful of resources.", e)
+        }
+        setPoolSize(mailConfig.poolSize ?: null)
+    }
 }

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package blotto.mail
+package blotto.mail.system
 
-import blotto.mail.impl.DummyRequest
-import blotto.mail.impl.DummyResponse
-import blotto.mail.impl.DummyServletContext
+import blotto.mail.system.placeholders.DummyRequest
+import blotto.mail.system.placeholders.DummyResponse
+import blotto.mail.system.placeholders.DummyServletContext
 import org.codehaus.groovy.grails.web.pages.GroovyPageBinding
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateRenderer
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
@@ -39,11 +39,12 @@ class MailMessageContentRenderer {
     GroovyPagesTemplateRenderer groovyPagesTemplateRenderer
 
     def render(Writer out, String templateName, model, locale, String pluginName = null) {
-        def request = new GrailsWebRequest(new DummyRequest(), new DummyResponse(new PrintWriter(out)), new DummyServletContext())
-        def binding = new GroovyPageBinding()
+        def pageScope = new GroovyPageBinding()
+        def request = new GrailsWebRequest(new DummyRequest(pageScope), new DummyResponse(new PrintWriter(out)), new DummyServletContext())
+        def emptyBinding = new GroovyPageBinding()
         RequestContextHolder.setRequestAttributes(request)
-        groovyPagesTemplateRenderer.render(request, binding, [template: templateName, model: model], "", out)
-        return out.toString()
+        groovyPagesTemplateRenderer.render(request, emptyBinding, [template: templateName, model: model], "", out)
+        return [out: out.toString(), subject: pageScope.getVariable("subject")]
     }
 
 }

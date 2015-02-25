@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package blotto.mail
+package blotto.mail.system
 
 import org.springframework.stereotype.Component
 

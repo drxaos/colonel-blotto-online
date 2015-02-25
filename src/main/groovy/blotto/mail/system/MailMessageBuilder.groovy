@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package blotto.mail
+package blotto.mail.system
 
 import com.sun.mail.smtp.SMTPMessage
 import org.slf4j.Logger
@@ -96,11 +96,11 @@ class MailMessageBuilder {
             }
 
             if (defaultFrom) {
-                message.from = defaultFrom
+                message.from = from = defaultFrom
             }
 
             if (defaultTo) {
-                message.setTo(defaultTo)
+                message.setTo(to = defaultTo)
             }
         }
 
@@ -266,7 +266,8 @@ class MailMessageBuilder {
         Assert.notEmpty(params, "body cannot be null or empty")
 
         def render = doRender(params)
-        html(render.toString())
+        subject(render?.subject?.toString())
+        html(render?.out?.toString())
     }
 
     protected def doRender(Map params) {
@@ -284,7 +285,9 @@ class MailMessageBuilder {
     void text(Map params) {
         Assert.notEmpty(params, "text cannot be null or empty")
 
-        text(doRender(params).out.toString())
+        def render = doRender(params)
+        subject(render?.subject?.toString())
+        text(render?.out?.toString())
     }
 
     void text(CharSequence text) {
@@ -296,7 +299,9 @@ class MailMessageBuilder {
     void html(Map params) {
         Assert.notEmpty(params, "html cannot be null or empty")
 
-        html(doRender(params)?.toString())
+        def render = doRender(params)
+        subject(render?.subject?.toString())
+        html(render?.out?.toString())
         this.mailView = params.view
     }
 
@@ -503,7 +508,7 @@ class MailMessageBuilder {
 
     void saveToLog() {
         try {
-            mailLogService.save(date, to, subject, mailHtml, from)
+            mailLogService.save(date, to, subject, mailHtml, from, mailView)
         } catch (Exception e) {
             log.error("error while saving mail log", e)
         }

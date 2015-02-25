@@ -1,4 +1,4 @@
-package blotto.mail.impl
+package blotto.mail.system.placeholders
 
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletResponseWrapper

@@ -1,4 +1,4 @@
-package blotto.mail.impl
+package blotto.mail.system.placeholders
 
 import javax.servlet.*
 import javax.servlet.descriptor.JspConfigDescriptor

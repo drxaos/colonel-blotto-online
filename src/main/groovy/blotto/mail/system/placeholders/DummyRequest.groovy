@@ -1,5 +1,6 @@
-package blotto.mail.impl
+package blotto.mail.system.placeholders
 
+import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
@@ -16,8 +17,11 @@ class DummyRequest extends HttpServletRequestWrapper {
     private String queryString;
     private String method;
 
-    public DummyRequest() {
+    def pageScope
+
+    public DummyRequest(pageScope) {
         super(UNSUPPORTED_REQUEST);
+        this.pageScope = pageScope
     }
 
     public void setRequestURI(String requestURI) {
@@ -69,6 +73,9 @@ class DummyRequest extends HttpServletRequestWrapper {
     }
 
     public Object getAttribute(String name) {
+        if (GrailsApplicationAttributes.PAGE_SCOPE.equals(name)) {
+            return pageScope
+        }
         return null;
     }
 

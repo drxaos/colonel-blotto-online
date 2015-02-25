@@ -1,4 +1,4 @@
-package blotto.mail
+package blotto.mail.system
 
 import blotto.errors.ServiceException
 import groovy.util.logging.Log4j
@@ -10,13 +10,14 @@ import org.springframework.transaction.annotation.Transactional
 class MailLogService {
 
     @Transactional
-    public save(Date date, String toEmail, String subject, String text, String sender) {
+    public save(Date date, String toEmail, String subject, String text, String sender, String view) {
         MailLog ml = new MailLog(
                 date: date,
                 toEmail: toEmail,
                 subject: subject,
                 text: text,
-                sender: sender
+                sender: sender,
+                view: view
         )
 
         if (!ml.validate() || !ml.save(flush: true)) {
