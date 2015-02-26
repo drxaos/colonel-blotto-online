@@ -36,7 +36,7 @@ public class LoginController extends AbstractMvcController {
     @ResponseBody
     public ActionAnswer doSignup(SignupParams cmd) {
         action(cmd) {
-            def player = playerService.createPlayer(cmd.username, cmd.password, cmd.email, cmd.fullName)
+            def player = playerService.signUpPlayer(cmd.username, cmd.password, cmd.email, cmd.fullName)
             SignInUtils.signin(player.username)
             return answer("registered", [redirect: "/help"])
         }

@@ -4,6 +4,7 @@ import blotto.Application
 import groovy.util.logging.Log4j
 import liquibase.integration.spring.SpringLiquibase
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -17,7 +18,7 @@ import java.sql.Driver
  */
 @Log4j
 @Configuration
-@Profile(["prod", "dev"])
+@Profile(["prod", "dev", "test"])
 public class DataSourceConfiguration {
 
     @Value('${datasource.username:root}')
@@ -42,12 +43,14 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    public SpringLiquibase liquibase(DataSource dataSource) {
+    public SpringLiquibase liquibase(DataSource dataSource, ApplicationContext applicationContext) {
+        def test = applicationContext.environment.activeProfiles.contains("test")
+
         SpringLiquibase liquibase = new SpringLiquibase()
         liquibase.setChangeLog(changelog)
         liquibase.setDataSource(dataSource)
         liquibase.setDropFirst(Application.params.contains("dropAll"))
-        liquibase.setShouldRun(Application.params.contains("migrate"))
+        liquibase.setShouldRun(Application.params.contains("migrate") || test)
         return liquibase
     }
 

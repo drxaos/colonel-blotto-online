@@ -50,6 +50,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-aop")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 
     compile("org.codehaus.groovy:groovy-all:2.3.1")
 
@@ -69,7 +70,10 @@ dependencies {
     compile("org.liquibase.ext:liquibase-hibernate4:3.5")
 
     compile("org.apache.tomcat.embed:tomcat-embed-el")
-    testCompile("junit:junit")
+
+    testCompile "org.gebish:geb-spock:0.10.0"
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'junit:junit:4.11'
 
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'javax.servlet.jsp.jstl:jstl:1.2'

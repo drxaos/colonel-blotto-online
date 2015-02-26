@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-@EnableScheduling
 public class BattleJob extends AbstractJob {
 
     @Autowired

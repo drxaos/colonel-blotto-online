@@ -12,6 +12,12 @@ environments {
         datasource.url = "jdbc:mysql://localhost/blotto"
         datasource.driver = "com.mysql.jdbc.Driver"
     }
+    test {
+        datasource.username = "sa"
+        datasource.password = "sa"
+        datasource.url = "jdbc:h2:mem:testing;DB_CLOSE_DELAY=-1;MODE=MySQL"
+        datasource.driver = "org.h2.Driver"
+    }
     prod {
         // ...
     }

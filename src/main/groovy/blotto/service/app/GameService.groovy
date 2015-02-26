@@ -36,8 +36,6 @@ public class GameService {
 
     @Transactional
     public void runBattle() {
-        mailHelper.sendTest("test@example.ru", "test")
-
         log.info("Battle job start")
         Player.withTransaction {
             Player.executeUpdate("update Player p set p.position = case when (" +

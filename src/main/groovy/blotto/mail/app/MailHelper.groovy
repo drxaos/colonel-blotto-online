@@ -11,9 +11,6 @@ class MailHelper {
     @Autowired
     MailService mailService
 
-    @Value('${app.host}')
-    String serviceName
-
     void send(String to, String view, Map model) {
         mailService.send(to, view, model)
     }
@@ -31,7 +28,6 @@ class MailHelper {
                 username: username,
                 password: password,
                 fullName: fullName,
-                serviceName: serviceName,
         ])
 
     }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Log4j
 @Component
-@Profile(["dev", "prod"])
+@Profile(["dev", "prod", "test"])
 public class ApplicationBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private boolean initialized = false;
