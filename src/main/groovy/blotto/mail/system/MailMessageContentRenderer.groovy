@@ -19,9 +19,11 @@ package blotto.mail.system
 import blotto.mail.system.placeholders.DummyRequest
 import blotto.mail.system.placeholders.DummyResponse
 import blotto.mail.system.placeholders.DummyServletContext
+import com.opensymphony.module.sitemesh.RequestConstants
 import org.codehaus.groovy.grails.web.pages.GroovyPageBinding
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateRenderer
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
+import org.codehaus.groovy.grails.web.sitemesh.GSPSitemeshPage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,6 +50,8 @@ class MailMessageContentRenderer {
         def writer = new StringWriter()
         def context = new DummyServletContext()
         def httpRequest = new DummyRequest(pageScope, context)
+        def page = new GSPSitemeshPage()
+        httpRequest.setAttribute(RequestConstants.PAGE, page)
         def httpResponse = new DummyResponse(new PrintWriter(writer))
         def request = new GrailsWebRequest(httpRequest, httpResponse, context)
         def emptyBinding = new GroovyPageBinding()

@@ -1,15 +1,12 @@
-<html>
-<body>
-<mail:subject>Привет</mail:subject>
+<g:applyLayout name="email">
 
-<h1>${test}</h1>
+    <mail:subject>Привет</mail:subject>
 
-<p class="text-center">
-    Распределите 100 солдат по 9 полям сражений. Ваша цель — победить на как можно <br>
-    большем числе полей в битве с каждым другим участником игры!
-</p>
+    <h1>${test}</h1>
 
-<g:render template="/mail/footer"/>
+    <p class="text-center">
+        Распределите 100 солдат по 9 полям сражений. Ваша цель — победить на как можно <br>
+        большем числе полей в битве с каждым другим участником игры!
+    </p>
 
-</body>
-</html>
+</g:applyLayout>

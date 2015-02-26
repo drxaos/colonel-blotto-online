@@ -95,4 +95,9 @@ class DummyRequest extends HttpServletRequestWrapper {
     ServletContext getServletContext() {
         return context
     }
+
+    @Override
+    Locale getLocale() {
+        return Locale.default
+    }
 }

@@ -1,14 +1,13 @@
-<html>
-<body>
-<mail:subject>Вы зарегистрированы на ${serviceName}</mail:subject>
+<g:applyLayout name="email">
 
-Добро пожаловать, ${fullName}
-<p>
-    Ваш логин: ${username}<br>
-    Пароль: ${password}<br>
-</p>
+    <mail:subject>Вы зарегистрированы на ${serviceName}</mail:subject>
 
-<g:render template="/mail/footer"/>
+    Добро пожаловать, ${fullName}
+    <p>
+        Ваш логин: ${username}<br>
+        Пароль: ${password}<br>
+    </p>
 
-</body>
-</html>
+    <g:render template="/mail/footer"/>
+
+</g:applyLayout>
