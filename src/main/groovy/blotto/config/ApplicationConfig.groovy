@@ -27,11 +27,10 @@ environments {
         // Geb
         driver = {
             //Class.forName("org.openqa.selenium.firefox.FirefoxDriver").newInstance()
-            System.setProperty("webdriver.chrome.driver", "/home/xaos/workspace/chromedriver/chromedriver")
             Class.forName("org.openqa.selenium.chrome.ChromeDriver").newInstance()
         }
         baseUrl = "http://localhost:${server.port}"
-        reportsDir = new File("target/geb-reports")
+        reportsDir = new File("build/geb-reports")
         reportOnTestFailureOnly = true
     }
     prod {
