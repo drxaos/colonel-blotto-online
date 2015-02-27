@@ -2,7 +2,8 @@ package blotto.service.app
 
 import blotto.aop.inprogress.DisableIfBattleInProgress
 import blotto.domain.Player
-import blotto.errors.UserAlreadyExists
+import blotto.errors.player.EmailAlreadyExists
+import blotto.errors.player.UsernameAlreadyExists
 import blotto.mail.app.MailHelper
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,13 +20,16 @@ public class PlayerService {
 
     @Transactional
     public Player createPlayer(String username, String password, String email, String fullName) {
-        if (!Player.findByUsername(username)) {
-            Player player = new Player(username: username, email: email, password: password, fullName: fullName)
-            player.save(flush: true, failOnError: true)
-            return player
-        } else {
-            throw new UserAlreadyExists(username)
+        if (Player.findByUsername(username)) {
+            throw new UsernameAlreadyExists(username)
         }
+        if (Player.findByEmail(email)) {
+            throw new EmailAlreadyExists(email)
+        }
+
+        Player player = new Player(username: username, email: email, password: password, fullName: fullName)
+        player.save(flush: true, failOnError: true)
+        return player
     }
 
     @Transactional

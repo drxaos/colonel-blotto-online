@@ -18,6 +18,7 @@ public class Application {
     static applicationContext
 
     private static params = []
+    static ConfigObject config
 
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(Application.class);

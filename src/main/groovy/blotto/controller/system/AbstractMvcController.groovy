@@ -1,7 +1,7 @@
 package blotto.controller.system
 
-import blotto.errors.CmdErrors
-import blotto.errors.ServiceException
+import blotto.errors.system.CmdErrors
+import blotto.errors.system.ServiceException
 import blotto.service.system.MessageFactoryService
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired

@@ -30,7 +30,7 @@
                                checked="checked"> Запомнить меня
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">В бой!</button>
+                <button class="btn btn-lg btn-primary btn-block login__submitButton" type="submit">В бой!</button>
             </form>
         </div>
     </div>

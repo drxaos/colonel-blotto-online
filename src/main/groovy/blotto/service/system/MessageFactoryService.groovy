@@ -3,7 +3,7 @@ package blotto.service.system
 import blotto.controller.system.AbstractMvcController
 import blotto.controller.system.ActionAnswer
 import blotto.controller.system.FieldError
-import blotto.errors.CmdErrors
+import blotto.errors.system.CmdErrors
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource

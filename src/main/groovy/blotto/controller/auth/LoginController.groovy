@@ -2,7 +2,8 @@ package blotto.controller.auth
 
 import blotto.controller.system.AbstractMvcController
 import blotto.controller.system.ActionAnswer
-import blotto.errors.UserAlreadyExists
+import blotto.errors.player.EmailAlreadyExists
+import blotto.errors.player.UsernameAlreadyExists
 import blotto.service.app.PlayerService
 import blotto.utils.SignInUtils
 import org.codehaus.groovy.grails.validation.Validateable
@@ -40,8 +41,11 @@ public class LoginController extends AbstractMvcController {
             SignInUtils.signin(player.username)
             return answer("registered", [redirect: "/help"])
         }
-        on(UserAlreadyExists) { UserAlreadyExists e ->
+        on(UsernameAlreadyExists) { UsernameAlreadyExists e ->
             return error(e) << field("username", "already-exists")
+        }
+        on(EmailAlreadyExists) { EmailAlreadyExists e ->
+            return error(e) << field("email", "already-exists")
         }
     }
 

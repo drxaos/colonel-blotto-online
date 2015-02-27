@@ -3,7 +3,7 @@ package blotto.service.app
 import blotto.aop.inprogress.DisableIfBattleInProgress
 import blotto.domain.Player
 import blotto.domain.Strategy
-import blotto.errors.ServiceException
+import blotto.errors.system.ServiceException
 import groovy.util.logging.Log4j
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

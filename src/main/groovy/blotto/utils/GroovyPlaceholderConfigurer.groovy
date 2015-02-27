@@ -1,5 +1,6 @@
 package blotto.utils
 
+import blotto.Application
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
 import org.springframework.core.env.Environment
@@ -30,6 +31,7 @@ public class GroovyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
             }
         }
         props.putAll(configObject.toProperties())
+        Application.config = configObject
     }
 
 

@@ -31,7 +31,7 @@ class Player {
         username nullable: false, blank: false, unique: true
         password nullable: false, blank: false
 
-        fullName nullable: false, blank: false, unique: true
+        fullName nullable: false, blank: false
         email nullable: false, blank: false, unique: true
 
         strategyLastUpdated nullable: true

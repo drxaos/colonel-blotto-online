@@ -1,4 +1,6 @@
-package blotto.errors
+package blotto.errors.battle
+
+import blotto.errors.system.ServiceException
 
 class BattleIsInProgress extends ServiceException {
     BattleIsInProgress() {

@@ -31,6 +31,7 @@ idea {
         inheritOutputDirs = false
         outputDir = file("$buildDir/classes/main/")
         scopes.COMPILE.plus += [configurations.compile]
+        scopes.COMPILE.plus += [configurations.testCompile]
         downloadJavadoc = false
         downloadSources = true
     }
@@ -74,6 +75,10 @@ dependencies {
     testCompile "org.gebish:geb-spock:0.10.0"
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     testCompile 'junit:junit:4.11'
+    testCompile 'org.seleniumhq.selenium:selenium-firefox-driver:2.44.0'
+    testCompile 'org.seleniumhq.selenium:selenium-chrome-driver:2.44.0'
+    testCompile 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.44.0'
+    testCompile 'org.seleniumhq.selenium:selenium-support:2.44.0'
 
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'javax.servlet.jsp.jstl:jstl:1.2'
@@ -81,6 +86,14 @@ dependencies {
 
     compile 'javax.mail:mail:1.4.7'
 
+}
+
+test {
+    testLogging {
+        //showStandardStreams = true
+        exceptionFormat "full"
+        events "started", "passed", "skipped", "failed"
+    }
 }
 
 task wrapper(type: Wrapper) {

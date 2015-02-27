@@ -1,4 +1,4 @@
-package blotto.errors
+package blotto.errors.system
 
 import org.springframework.validation.BeanPropertyBindingResult
 
