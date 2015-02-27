@@ -26,8 +26,12 @@ environments {
 
         // Geb
         driver = {
-            //Class.forName("org.openqa.selenium.firefox.FirefoxDriver").newInstance()
-            Class.forName("org.openqa.selenium.chrome.ChromeDriver").newInstance()
+            String type = System.getenv("webdriver");
+            if (type == "firefox") {
+                return Class.forName("org.openqa.selenium.firefox.FirefoxDriver").newInstance()
+            } else {
+                return Class.forName("org.openqa.selenium.chrome.ChromeDriver").newInstance()
+            }
         }
         baseUrl = "http://localhost:${server.port}"
         reportsDir = new File("build/geb-reports")
