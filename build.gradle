@@ -110,7 +110,3 @@ test {
         events "started", "passed", "skipped", "failed"
     }
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
-}
