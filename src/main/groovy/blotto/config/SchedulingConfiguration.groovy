@@ -15,6 +15,9 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 
+/**
+ * Scheduling configuration and task registry holder
+ */
 @Configuration
 @EnableScheduling
 class SchedulingConfiguration implements SchedulingConfigurer {

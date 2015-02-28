@@ -2,7 +2,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 ext {
     ext {
-        groovyVersion = '2.3.1'
+        groovyVersion = '2.3.6'
         gebVersion = '0.10.0'
         seleniumVersion = '2.44.0'
         chromeDriverVersion = '2.14'

@@ -1,6 +1,5 @@
 package blotto
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration
@@ -9,16 +8,25 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.EnableAspectJAutoProxy
 
+import java.lang.reflect.Field
+import java.nio.charset.Charset
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration(exclude = [BasicErrorController, LiquibaseAutoConfiguration])
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application {
 
-    static applicationContext
-
     private static params = []
-    static ConfigObject config
+
+    static {
+        if (System.getProperty('file.encoding')?.toUpperCase() != "UTF-8") {
+            System.setProperty 'file.encoding', 'UTF-8'
+            Field charset = Charset.class.getDeclaredField("defaultCharset");
+            charset.setAccessible(true);
+            charset.set(null, null);
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(Application.class);
@@ -32,12 +40,6 @@ public class Application {
     }
 
     public static List getParams() {
-        def res = []
-        res.addAll(params)
-        return res
-    }
-
-    public static String resolveValue(String name) {
-        ((ConfigurableBeanFactory) applicationContext.autowireCapableBeanFactory).resolveEmbeddedValue('${' + name + '}')
+        return new ArrayList(params)
     }
 }

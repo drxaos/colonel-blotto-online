@@ -49,6 +49,7 @@ class GrailsHoldersConfiguration implements ApplicationContextAware, GrailsAppli
     @Override
     void setGrailsApplication(GrailsApplication grailsApplication) {
         GrailsHoldersConfiguration.grailsApplication = grailsApplication
+        grailsApplication.applicationContext = applicationContext
     }
 
     @Bean(name = ConstraintsEvaluator.BEAN_NAME)

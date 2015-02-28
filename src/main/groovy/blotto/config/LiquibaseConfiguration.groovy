@@ -22,6 +22,9 @@ import javax.annotation.PostConstruct
 import javax.sql.DataSource
 import java.sql.Driver
 
+/**
+ * Liquibase changelog generation
+ */
 @Log4j
 @Configuration
 @Profile(["liquibase"])

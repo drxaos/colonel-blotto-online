@@ -24,7 +24,7 @@ public class LoginTest extends AbstractSpringTest {
         passwordField = "passwd"
         submitButton.click()
 
-        then: "I'm at the main page "
+        then: "I'm at the main page"
         at StrategyPage
     }
 
@@ -40,7 +40,7 @@ public class LoginTest extends AbstractSpringTest {
         passwordField = "passwd"
         submitButton.click()
 
-        then: "I'm at the login page "
+        then: "I'm at the login page with error"
         at LoginPage
         assert alertText == "Не удалось войти"
     }
@@ -57,7 +57,7 @@ public class LoginTest extends AbstractSpringTest {
         passwordField = "incorrect"
         submitButton.click()
 
-        then: "I'm at the login page "
+        then: "I'm at the login page with error"
         at LoginPage
         assert alertText == "Не удалось войти"
     }

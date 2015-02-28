@@ -2,14 +2,16 @@ package blotto.utils
 
 import blotto.Application
 import groovy.util.logging.Log4j
+import org.codehaus.groovy.grails.commons.DefaultGrailsApplication
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
 import org.springframework.core.env.Environment
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.Resource
 
 @Log4j
 public class GroovyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
     List locations
     Environment environment
+    DefaultGrailsApplication grailsApplication
 
     @Override
     protected void loadProperties(Properties props) throws IOException {
@@ -31,7 +33,8 @@ public class GroovyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
             }
         }
         props.putAll(configObject.toProperties())
-        Application.config = configObject
+        configObject.merge(grailsApplication.getConfig())
+        grailsApplication.config = configObject
     }
 
 

@@ -4,6 +4,7 @@ import blotto.Application
 import geb.Browser
 import geb.Configuration
 import geb.buildadapter.BuildAdapterFactory
+import grails.util.Holders
 import groovy.sql.Sql
 import org.junit.After
 import org.junit.AfterClass
@@ -36,7 +37,7 @@ abstract class AbstractSpringTest extends Specification {
     Configuration createBrowserConf() {
         def classLoader = new GroovyClassLoader(getClass().classLoader)
         def buildAdapter = BuildAdapterFactory.getBuildAdapter(classLoader)
-        new Configuration(Application.config, System.properties, buildAdapter, classLoader)
+        new Configuration(Holders.config, System.properties, buildAdapter, classLoader)
     }
 
     Browser createBrowser() {

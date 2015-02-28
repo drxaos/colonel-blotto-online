@@ -1,5 +1,5 @@
-<%@ page import="blotto.Application" %>
+<%@ page import="grails.util.Holders" %>
 <br/>---<br/>
-${Application.resolveValue("app.title")}
-<a href="${Application.resolveValue("app.url")}">${Application.resolveValue("app.url")}</a>
+${Holders.config.app.title}
+<a href="${Holders.config.app.url}">${Holders.config.app.url}</a>
 <br/><br/>
