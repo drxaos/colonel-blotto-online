@@ -21,8 +21,7 @@ public class LogoutTest extends AbstractSpringTest {
         when: "Player logs out"
         logout.click()
 
-        then: "I'm at the login page"
+        then: "Player is at the login page"
         at LoginPage
     }
-
 }

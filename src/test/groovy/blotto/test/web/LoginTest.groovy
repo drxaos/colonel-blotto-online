@@ -16,15 +16,15 @@ public class LoginTest extends AbstractSpringTest {
     public void 'Successful login'() {
         given: "Player exists"
         playerSteps.createPlayer()
-        and: "I'm at login page"
+        and: "Player is at login page"
         to LoginPage
 
-        when: "I login as a valid user"
+        when: "Player logins as a valid user"
         usernameField = "user1"
         passwordField = "passwd"
         submitButton.click()
 
-        then: "I'm at the main page"
+        then: "Player is at the main page"
         at StrategyPage
     }
 
@@ -32,15 +32,15 @@ public class LoginTest extends AbstractSpringTest {
     def "Invalid user login"() {
         given: "Player exists"
         playerSteps.createPlayer()
-        and: "I'm at the login form"
+        and: "Player is at the login page"
         to LoginPage
 
-        when: "I login as a invalid user"
+        when: "Player logins as invalid user"
         usernameField = "qwerty"
         passwordField = "passwd"
         submitButton.click()
 
-        then: "I'm at the login page with error"
+        then: "Player is at the login page with error alert"
         at LoginPage
         assert alertText == "Не удалось войти"
     }
@@ -49,15 +49,15 @@ public class LoginTest extends AbstractSpringTest {
     def "Invalid password login"() {
         given: "Player exists"
         playerSteps.createPlayer()
-        and: "I'm at the login form"
+        and: "Player is at the login page"
         to LoginPage
 
-        when: "I login as a invalid user"
+        when: "Player logins with invalid password"
         usernameField = "user1"
         passwordField = "incorrect"
         submitButton.click()
 
-        then: "I'm at the login page with error"
+        then: "Player is at the login page with error alert"
         at LoginPage
         assert alertText == "Не удалось войти"
     }
