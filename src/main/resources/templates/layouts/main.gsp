@@ -70,12 +70,12 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <a class="navbar-link ellipsis" style="max-width: 35ex; color: #ffffff">
+                                    <a class="navbar-link ellipsis navbar__username" style="max-width: 35ex; color: #ffffff">
                                         [<sec:loggedInUsername/>]
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/signout" class="navbar-link" style="text-decoration: underline">Выход</a>
+                                    <a href="/signout" class="navbar-link navbar__logout" style="text-decoration: underline">Выход</a>
                                 </li>
                             </ul>
                         </div>

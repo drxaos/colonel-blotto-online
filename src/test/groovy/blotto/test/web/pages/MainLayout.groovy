@@ -10,5 +10,6 @@ class MainLayout extends WebPage {
             waitForAnimationComplete()
             $(".alertsHolder__container .alert__msg").text()
         }
+        logout { $(".navbar__logout") }
     }
 }

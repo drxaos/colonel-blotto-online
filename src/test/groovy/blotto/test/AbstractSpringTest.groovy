@@ -29,26 +29,27 @@ abstract class AbstractSpringTest extends Specification {
 
     // ######### Geb #########
 
-    String gebConfEnv = "test"
-    String gebConfScript = null
-
     static Browser _browser
 
-    Configuration createBrowserConf() {
+    static Configuration createBrowserConf() {
         def classLoader = new GroovyClassLoader(getClass().classLoader)
         def buildAdapter = BuildAdapterFactory.getBuildAdapter(classLoader)
         new Configuration(Holders.config, System.properties, buildAdapter, classLoader)
     }
 
-    Browser createBrowser() {
+    static Browser createBrowser() {
         new Browser(createBrowserConf())
     }
 
-    Browser getBrowser() {
+    static Browser getBrowserInst() {
         if (_browser == null) {
             _browser = createBrowser()
         }
         _browser
+    }
+
+    Browser getBrowser() {
+        getBrowserInst()
     }
 
     void resetBrowser() {

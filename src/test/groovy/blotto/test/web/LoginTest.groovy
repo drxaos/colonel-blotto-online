@@ -1,7 +1,7 @@
 package blotto.test.web
 
 import blotto.test.AbstractSpringTest
-import blotto.test.helpers.PlayerHelper
+import blotto.test.helpers.PlayerSteps
 import blotto.test.web.pages.LoginPage
 import blotto.test.web.pages.StrategyPage
 import org.junit.Test
@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired
 public class LoginTest extends AbstractSpringTest {
 
     @Autowired
-    PlayerHelper playerHelper
+    PlayerSteps playerSteps
 
     @Test
     public void 'Successful login'() {
         given: "Player exists"
-        playerHelper.createPlayer()
+        playerSteps.createPlayer()
         and: "I'm at login page"
         to LoginPage
 
@@ -31,7 +31,7 @@ public class LoginTest extends AbstractSpringTest {
     @Test
     def "Invalid user login"() {
         given: "Player exists"
-        playerHelper.createPlayer()
+        playerSteps.createPlayer()
         and: "I'm at the login form"
         to LoginPage
 
@@ -48,7 +48,7 @@ public class LoginTest extends AbstractSpringTest {
     @Test
     def "Invalid password login"() {
         given: "Player exists"
-        playerHelper.createPlayer()
+        playerSteps.createPlayer()
         and: "I'm at the login form"
         to LoginPage
 

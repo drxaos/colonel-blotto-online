@@ -3,7 +3,7 @@ package blotto.service.app
 import blotto.domain.Player
 import blotto.domain.Strategy
 import blotto.job.app.BattleJob
-import blotto.mail.app.MailHelper
+import blotto.mail.app.Mailer
 import groovy.time.TimeCategory
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +18,7 @@ public class GameService {
     BattleJob battleJob
 
     @Autowired
-    MailHelper mailHelper
+    Mailer mailer
 
     @Transactional
     public List<Strategy> getBestStrategies(int count) {
