@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="xaos" id="r0.01.03-1">
+        <dropUniqueConstraint constraintName="uk_9glopf0unn9e6uytmk75tox52" tableName="player"/>
+        <rollback>
+            <addUniqueConstraint columnNames="full_name" constraintName="uk_9glopf0unn9e6uytmk75tox52"
+                                 deferrable="false" disabled="false" initiallyDeferred="false" tableName="player"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
