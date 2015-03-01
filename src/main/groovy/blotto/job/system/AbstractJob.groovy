@@ -1,9 +1,9 @@
 package blotto.job.system
 
 import groovy.util.logging.Log4j
+import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
-import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.support.CronSequenceGenerator
 import org.springframework.transaction.PlatformTransactionManager
@@ -42,11 +42,11 @@ abstract public class AbstractJob {
                 }
                 lock.inProgress = true
             }
-            lastStart = new Date()
+            lastStart = DateTime.now().toDate()
 
             job.call()
 
-            lastEnd = new Date()
+            lastEnd = DateTime.now().toDate()
         } catch (Exception e) {
             log.error(null, e)
         } finally {
@@ -60,7 +60,7 @@ abstract public class AbstractJob {
         def expressions = getCronAnnotations()
         def next = null
         expressions.each { exp ->
-            def d = new CronSequenceGenerator(exp).next(new Date())
+            def d = new CronSequenceGenerator(exp).next(DateTime.now().toDate())
             if (!next || next > d) {
                 next = d
             }

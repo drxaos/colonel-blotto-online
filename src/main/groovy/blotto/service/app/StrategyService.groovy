@@ -5,6 +5,7 @@ import blotto.domain.Player
 import blotto.domain.Strategy
 import blotto.errors.system.ServiceException
 import groovy.util.logging.Log4j
+import org.joda.time.DateTime
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,7 +20,7 @@ public class StrategyService {
             throw new ServiceException("illegal-arguments")
         }
         player.strategy = strategy
-        player.strategyLastUpdated = new Date()
+        player.strategyLastUpdated = DateTime.now().toDate()
         player.save(flush: true, failOnError: true)
     }
 

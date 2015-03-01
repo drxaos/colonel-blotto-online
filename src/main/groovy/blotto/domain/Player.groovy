@@ -3,6 +3,7 @@ package blotto.domain
 import grails.persistence.Entity
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import org.joda.time.DateTime
 
 @Entity
 @ToString
@@ -10,7 +11,7 @@ import groovy.transform.ToString
 class Player {
     String username
     String password
-    Date created = new Date()
+    Date created = DateTime.now().toDate()
 
     String fullName
     String email

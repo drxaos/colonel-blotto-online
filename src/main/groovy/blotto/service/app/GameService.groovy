@@ -6,6 +6,7 @@ import blotto.job.app.BattleJob
 import blotto.mail.app.Mailer
 import groovy.time.TimeCategory
 import groovy.util.logging.Log4j
+import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,8 +27,8 @@ public class GameService {
     }
 
     public int getNextBattle() {
-        def now = new Date()
-        def run = battleJob.nextRun ?: new Date()
+        def now = DateTime.now().toDate()
+        def run = battleJob.nextRun ?: DateTime.now().toDate()
         def elapsed = use(TimeCategory) {
             (run - now).toMilliseconds() / 1000
         }
@@ -60,10 +61,13 @@ public class GameService {
                     "p.wins * 10 + p.draws * 5")
 
             // calculate positions
-
-
-            // add points
-
+            def pos = 1
+            def res = 1
+            while (res) {
+                res = Player.executeUpdate("update Player p set p.position = :pos " +
+                        "where p.score = (select max(p2.score) from Player p2 where p2.position = 0)",
+                        [pos: pos])
+            }
 
         }
         log.info("Battle job end")

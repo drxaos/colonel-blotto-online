@@ -16,6 +16,7 @@
 package blotto.mail.system
 
 import com.sun.mail.smtp.SMTPMessage
+import org.joda.time.DateTime
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ByteArrayResource
@@ -448,9 +449,9 @@ class MailMessageBuilder {
             doAdd(it.id, it.contentType, it.toAdd, false)
         }
 
-        message.sentDate = new Date()
+        message.sentDate = DateTime.now().toDate()
 
-        this.date = new Date()
+        this.date = DateTime.now().toDate()
         message.sentDate = this.date
         saveToLog()
         return message

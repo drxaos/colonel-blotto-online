@@ -97,6 +97,7 @@ dependencies {
     compile 'taglibs:standard:1.1.2'
 
     compile 'javax.mail:mail:1.4.7'
+    compile 'joda-time:joda-time:2.7'
 }
 
 test {

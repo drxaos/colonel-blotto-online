@@ -18,6 +18,7 @@ import liquibase.exception.LiquibaseException
 import liquibase.integration.spring.SpringLiquibase
 import liquibase.resource.ResourceAccessor
 import liquibase.util.StringUtils
+import org.joda.time.DateTime
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -43,7 +44,7 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
 
         def cfg = applicationContext.getBean("&sessionFactory").configuration
 
-        releaseName = applicationContext.getEnvironment().getProperty("application.version", "snapshot-" + (new Date()).format("yyyy-MM-dd"))
+        releaseName = applicationContext.getEnvironment().getProperty("application.version", "snapshot-" + (DateTime.now().toDate()).format("yyyy-MM-dd"))
 
         File path = applicationContext.getResource("classpath:/").file
         while (!path.list().contains("build.gradle")) {

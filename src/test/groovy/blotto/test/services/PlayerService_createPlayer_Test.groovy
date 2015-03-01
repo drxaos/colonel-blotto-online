@@ -9,7 +9,7 @@ import junit.framework.Assert
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-public class PlayerServiceTest extends AbstractSpringTest {
+public class PlayerService_createPlayer_Test extends AbstractSpringTest {
 
     @Autowired
     PlayerService playerService
