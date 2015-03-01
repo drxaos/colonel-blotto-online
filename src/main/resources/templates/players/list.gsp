@@ -25,7 +25,7 @@
                 <a class="list-group-item ${p.id == player.id ? 'active' : ''}"
                    href="#p${p.id}" name="p${p.id}">
                     <g:if test="${p.score > 0}">
-                        <span class="badge">${p.score}</span>
+                        <span class="badge">${1d * p.score / 10}</span>
                     </g:if>
                     ${n + 1}. ${p.fullName} (${p.username})
                 </a>

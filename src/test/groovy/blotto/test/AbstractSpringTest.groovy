@@ -16,7 +16,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.web.WebAppConfiguration
 import spock.lang.Specification
-import spock.lang.Stepwise
 
 import javax.sql.DataSource
 
@@ -71,10 +70,6 @@ abstract class AbstractSpringTest extends Specification {
         getBrowser()."$name" = value
     }
 
-    private isSpecStepwise() {
-        this.class.getAnnotation(Stepwise) != null
-    }
-
     def setupSpec() {
         createDbDump()
     }
@@ -84,15 +79,7 @@ abstract class AbstractSpringTest extends Specification {
     }
 
     def cleanup() {
-        if (!isSpecStepwise()) {
-            resetBrowser()
-        }
-    }
-
-    def cleanupSpec() {
-        if (isSpecStepwise()) {
-            resetBrowser()
-        }
+        resetBrowser()
     }
 
     // ######### Database reset #########
@@ -115,9 +102,7 @@ abstract class AbstractSpringTest extends Specification {
 
     @After
     void cleanupDb() {
-        if (!isSpecStepwise()) {
-            loadH2FromBackup()
-        }
+        loadH2FromBackup()
     }
 
     @AfterClass

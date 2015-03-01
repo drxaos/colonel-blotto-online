@@ -1,15 +1,12 @@
 package blotto.test.services
 
 import blotto.service.app.GameService
-import blotto.service.app.PlayerService
 import blotto.test.AbstractSpringTest
 import blotto.test.helpers.PlayerSteps
 import blotto.test.helpers.StrategySteps
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
-import spock.lang.Stepwise
 
-@Stepwise
 public class GameService_runBattle_game1_Test extends AbstractSpringTest {
 
     @Autowired
@@ -38,18 +35,22 @@ public class GameService_runBattle_game1_Test extends AbstractSpringTest {
         assert p1.score == 50
         assert p1.position == 3
         p2.refresh()
-        assert p1.position == 2
+        assert p2.wins == 4
+        assert p2.draws == 9
+        assert p2.loses == 5
+        assert p2.score == 85
+        assert p2.position == 2
         p3.refresh()
-        assert p1.position == 1
+        assert p3.wins == 11
+        assert p3.draws == 5
+        assert p3.loses == 2
+        assert p3.score == 135
+        assert p3.position == 1
 
-    }
-
-    @Test
-    public void 'game 1 results p1'() {
-        when: "p1 open results"
-        playerSteps.login("p1")
+        when: "p3 open results"
+        playerSteps.login("p3")
         // to ResultPage
-        then: "p1 sees results"
-        //
+        then: "p3 sees results"
+        // Ваша стратегия заняла 1 место, сыграв 18 игр, из них 11 победы, 2 поражений и 5 игр вничью.
     }
 }
