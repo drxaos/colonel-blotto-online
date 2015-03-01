@@ -38,10 +38,33 @@ public class GameService {
     public void runBattle() {
         log.info("Battle job start")
         Player.withTransaction {
+            // reset positions and disable incorrect strategies
             Player.executeUpdate("update Player p set p.position = case when (" +
                     "p.strategy.f1 + p.strategy.f2 + p.strategy.f3 +" +
                     "p.strategy.f4 + p.strategy.f5 + p.strategy.f6 +" +
-                    "p.strategy.f7 + p.strategy.f8 + p.strategy.f9 = 100 ) then 0 else -1 end")
+                    "p.strategy.f7 + p.strategy.f8 + p.strategy.f9 = 100 ) then 0 else -1 end," +
+                    "p.wins = 0, p.loses = 0, p.draws = 0, p.score = 0")
+
+            // count wins, draws and loses
+            [wins: ">", loses: "<", draws: "="].each { res, op ->
+                1..9.each { num ->
+                    Player.executeUpdate("update Player p set p.${res} = p.${res} + " +
+                            "(select count(*) from Player p2 where p <> p2 and" +
+                            "p.position <> -1 and p2.position <> -1 and" +
+                            "p.strategy.f${num} ${op} p2.strategy.f${num})")
+                }
+            }
+
+            // calculate score
+            Player.executeUpdate("update Player p set p.score = " +
+                    "p.wins * 10 + p.draws * 5")
+
+            // calculate positions
+
+
+            // add points
+
+
         }
         log.info("Battle job end")
     }
