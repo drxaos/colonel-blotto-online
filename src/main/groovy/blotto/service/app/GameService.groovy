@@ -104,7 +104,7 @@ public class GameService {
                             row.strategy_f7 + ', ' +
                             row.strategy_f8 + ', ' +
                             row.strategy_f9
-                    b.append("\"${strategy}\",\"${row.wins}\",\"${row.draws}\",\"${row.loses}\",\"${row.score}\"\n")
+                    b.append("\"${strategy}\",\"${row.wins}\",\"${row.draws}\",\"${row.loses}\",\"${1d * row.score / 10}\"\n")
                 }
             }
             return b.toString()
