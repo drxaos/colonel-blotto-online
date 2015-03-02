@@ -31,7 +31,7 @@ class SchedulingConfiguration implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        def prod = applicationContext.environment.activeProfiles.contains("prod")
+        def prod = applicationContext.environment.acceptsProfiles("prod")
 
         registrar = taskRegistrar
 

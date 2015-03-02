@@ -29,7 +29,7 @@ public class ApplicationBootstrap implements ApplicationListener<ContextRefreshe
             return;
         }
         initialized = true;
-        def profiles = applicationContext.environment.activeProfiles
+        def profiles = applicationContext.environment.activeProfiles ?: applicationContext.environment.defaultProfiles
         log.info("Active profiles: ${profiles}")
         log.info("Bootstrap")
         bootstrap(profiles as List)

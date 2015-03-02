@@ -44,7 +44,7 @@ public class DataSourceConfiguration {
 
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource, ApplicationContext applicationContext) {
-        def test = applicationContext.environment.activeProfiles.contains("test")
+        def test = applicationContext.environment.acceptsProfiles("test")
 
         SpringLiquibase liquibase = new SpringLiquibase()
         liquibase.setChangeLog(changelog)
