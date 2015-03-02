@@ -2,6 +2,7 @@ package blotto.config
 
 import blotto.utils.scheduler.DisabledScheduler
 import grails.util.Holders
+import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
@@ -18,6 +19,7 @@ import java.util.concurrent.Executors
 /**
  * Scheduling configuration and task registry holder
  */
+@Log4j
 @Configuration
 @EnableScheduling
 class SchedulingConfiguration implements SchedulingConfigurer {
@@ -34,10 +36,13 @@ class SchedulingConfiguration implements SchedulingConfigurer {
         registrar = taskRegistrar
 
         if (prod) {
+            log.info("Setting up thread pool for job scheduling")
             taskRegistrar.setScheduler(taskExecutor());
         } else if (Holders.config.scheduler.enable) {
+            log.info("Setting up default manager for job scheduling")
             taskRegistrar.setScheduler(new DefaultManagedTaskScheduler());
         } else {
+            log.info("Setting up disabled job scheduling")
             taskRegistrar.setScheduler(new DisabledScheduler());
         }
     }
