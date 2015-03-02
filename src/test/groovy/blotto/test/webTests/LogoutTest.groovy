@@ -1,8 +1,8 @@
-package blotto.test.web
+package blotto.test.webTests
 
 import blotto.test.AbstractSpringTest
 import blotto.test.helpers.PlayerSteps
-import blotto.test.web.pages.LoginPage
+import blotto.test.pages.LoginPage
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 

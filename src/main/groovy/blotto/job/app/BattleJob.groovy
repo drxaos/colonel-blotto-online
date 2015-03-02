@@ -13,7 +13,7 @@ public class BattleJob extends AbstractJob {
     @Autowired
     GameService gameService
 
-    @Scheduled(cron = "0/20 * * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void execute() {
         run { gameService.runBattle() }
     }

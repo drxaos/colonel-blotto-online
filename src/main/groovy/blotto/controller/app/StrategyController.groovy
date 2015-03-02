@@ -44,4 +44,27 @@ public class StrategyController extends AbstractMvcController {
         }
     }
 
+//    @RequestMapping(value = "/strategy/import", method = RequestMethod.GET)
+//    @ResponseBody
+//    public ActionAnswer importFromCsv() {
+//        action {
+//            def csv = 'https://d396qusza40orc.cloudfront.net/gt/tournaments/results/blotto2_results.csv'.toURL().text
+//            def num = 1
+//            csv.eachLine {
+//                def strategyStr = it.replaceFirst(/^"/, "").replaceFirst(/".+$/, "")
+//                if (!strategyStr.contains(",")) {
+//                    return
+//                }
+//                def player = playerService.createPlayer("a" + num, "passwd", "a" + num + "@test.ru", "a" + num)
+//                def strategy = new Strategy()
+//                strategyStr.split(',').eachWithIndex { String entry, int i ->
+//                    strategy."f${i + 1}" = entry.trim() as int
+//                }
+//                strategyService.updateStrategy(player, strategy)
+//                num++
+//            }
+//            return success("ok")
+//        }
+//    }
+
 }

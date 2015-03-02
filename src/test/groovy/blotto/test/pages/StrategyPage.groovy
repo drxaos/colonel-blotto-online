@@ -1,4 +1,4 @@
-package blotto.test.web.pages
+package blotto.test.pages
 
 class StrategyPage extends MainLayout {
     static url = "/"

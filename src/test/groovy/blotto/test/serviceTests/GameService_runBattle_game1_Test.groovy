@@ -1,4 +1,4 @@
-package blotto.test.services
+package blotto.test.serviceTests
 
 import blotto.service.app.GameService
 import blotto.test.AbstractSpringTest

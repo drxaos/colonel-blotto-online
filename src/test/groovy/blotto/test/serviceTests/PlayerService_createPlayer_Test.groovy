@@ -1,4 +1,4 @@
-package blotto.test.services
+package blotto.test.serviceTests
 
 import blotto.domain.Player
 import blotto.errors.player.EmailAlreadyExists

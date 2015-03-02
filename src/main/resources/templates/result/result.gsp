@@ -64,18 +64,37 @@
                 сыграв ${player.wins + player.loses + player.draws} игр,
                 из них ${player.wins} победы,
                 ${player.loses} поражений
-                и ${player.draws} игр вничью.</h3>
+                и ${player.draws} игр вничью.
+            </h3>
+
+            <p>
+                <a href="/result/download">Получить полный отчет</a>
+            </p>
         </div>
 
         <div class="col-sm-1 col-xs-1"></div>
     </div>
 </g:if>
+<g:else>
+    <div class="page-header row text-center">
+        <div class="col-sm-2 col-xs-1"></div>
+
+        <div class="col-sm-9 col-xs-10">
+            <h3>
+                Вы не принимали участия в сражении.
+            </h3>
+        </div>
+
+        <div class="col-sm-1 col-xs-1"></div>
+    </div>
+</g:else>
 
 <div class="page-header row text-center">
     <div class="col-sm-2 col-xs-1"></div>
 
     <div class="col-sm-9 col-xs-10">
         <h1>Следующее сражение через <span class="results__clock"></span></h1>
+
         <div class="result__refreshContainer">
             <g:render template="result/refresh"/>
         </div>
@@ -88,9 +107,9 @@
 
     var next = "${next}";
 
-    function updateClock () {
+    function updateClock() {
         $('.results__clock').text(toHHMMSS(next));
-        if(next <= 0){
+        if (next <= 0) {
             $(".result__refreshContainer").fadeIn();
         }
         if (next > 0) {

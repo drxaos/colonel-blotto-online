@@ -7,11 +7,12 @@ import blotto.mail.app.Mailer
 import groovy.sql.Sql
 import groovy.time.TimeCategory
 import groovy.util.logging.Log4j
-import org.grails.datastore.mapping.core.Session
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+
+import java.sql.ResultSet
 
 @Log4j
 @Service
@@ -56,8 +57,8 @@ public class GameService {
             // count wins, draws and loses
             [wins: ">", loses: "<", draws: "="].each { res, op ->
                 (1..9).each { num ->
-                    String sql = "update Player p set p.${res} = p.${res} + " +
-                            "(select count(*) from Player p2 where p.id <> p2.id and " +
+                    String sql = "update player p set p.${res} = p.${res} + " +
+                            "(select count(*) from (select * from player) p2 where p.id <> p2.id and " +
                             "p.position <> -1 and p2.position <> -1 and " +
                             "p.strategy_f${num} ${op} p2.strategy_f${num})"
                     db.call(sql)
@@ -72,14 +73,58 @@ public class GameService {
             def pos = 1
             def res = 1
             while (res) {
-                res = Player.executeUpdate("update Player p set p.position = :pos " +
-                        "where p.score = (select max(p2.score) from Player p2 where p2.position = 0)",
-                        [pos: pos])
+                String sql = "update player p set p.position = ${pos} " +
+                        "where p.score = (select max(p2.score) from (select * from player) p2 where p2.position = 0)"
+                res = db.call(sql)
                 pos++
             }
 
+            db.query("select * from player p where p.position > 0 order by p.position asc") { ResultSet rs ->
+                while (rs.next()) {
+                    def row = rs.toRowResult()
+                    def strategy = "" +
+                            row.strategy_f1 + ', ' +
+                            row.strategy_f2 + ', ' +
+                            row.strategy_f3 + ', ' +
+                            row.strategy_f4 + ', ' +
+                            row.strategy_f5 + ', ' +
+                            row.strategy_f6 + ', ' +
+                            row.strategy_f7 + ', ' +
+                            row.strategy_f8 + ', ' +
+                            row.strategy_f9
+                    b.append("\"${strategy}\",\"${row.wins}\",\"${row.draws}\",\"${row.loses}\",\"${row.score}\"\n")
+                }
+            }
         }
+
         log.info("Battle job end")
     }
 
+    String getResultCsv() {
+        Player.withTransaction {
+            Sql db
+            Player.withSession { session ->
+                db = new Sql(session.connection())
+            }
+            StringBuilder b = new StringBuilder()
+            b.append("\"strategy\",\"wins\",\"draws\",\"losses\",\"score\"\n")
+            db.query("select * from player p where p.position > 0 order by p.position asc") { ResultSet rs ->
+                while (rs.next()) {
+                    def row = rs.toRowResult()
+                    def strategy = "" +
+                            row.strategy_f1 + ', ' +
+                            row.strategy_f2 + ', ' +
+                            row.strategy_f3 + ', ' +
+                            row.strategy_f4 + ', ' +
+                            row.strategy_f5 + ', ' +
+                            row.strategy_f6 + ', ' +
+                            row.strategy_f7 + ', ' +
+                            row.strategy_f8 + ', ' +
+                            row.strategy_f9
+                    b.append("\"${strategy}\",\"${row.wins}\",\"${row.draws}\",\"${row.loses}\",\"${row.score}\"\n")
+                }
+            }
+            return b.toString()
+        }
+    }
 }

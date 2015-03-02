@@ -1,19 +1,19 @@
 package blotto.config
 
+import blotto.utils.scheduler.DisabledScheduler
+import grails.util.Holders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-import org.springframework.scheduling.TaskScheduler
-import org.springframework.scheduling.Trigger
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.SchedulingConfigurer
+import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
 import org.springframework.scheduling.config.ScheduledTaskRegistrar
 
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
 
 /**
  * Scheduling configuration and task registry holder
@@ -35,6 +35,8 @@ class SchedulingConfiguration implements SchedulingConfigurer {
 
         if (prod) {
             taskRegistrar.setScheduler(taskExecutor());
+        } else if (Holders.config.scheduler.enable) {
+            taskRegistrar.setScheduler(new DefaultManagedTaskScheduler());
         } else {
             taskRegistrar.setScheduler(new DisabledScheduler());
         }
@@ -46,36 +48,4 @@ class SchedulingConfiguration implements SchedulingConfigurer {
         return Executors.newScheduledThreadPool(100);
     }
 
-}
-
-class DisabledScheduler implements TaskScheduler {
-    @Override
-    ScheduledFuture<?> schedule(Runnable task, Trigger trigger) {
-        return null
-    }
-
-    @Override
-    ScheduledFuture<?> schedule(Runnable task, Date startTime) {
-        return null
-    }
-
-    @Override
-    ScheduledFuture<?> scheduleAtFixedRate(Runnable task, Date startTime, long period) {
-        return null
-    }
-
-    @Override
-    ScheduledFuture<?> scheduleAtFixedRate(Runnable task, long period) {
-        return null
-    }
-
-    @Override
-    ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, Date startTime, long delay) {
-        return null
-    }
-
-    @Override
-    ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, long delay) {
-        return null
-    }
 }

@@ -2,8 +2,8 @@ package blotto.test.helpers
 
 import blotto.domain.Player
 import blotto.service.app.PlayerService
-import blotto.test.web.pages.LoginPage
-import blotto.test.web.pages.StrategyPage
+import blotto.test.pages.LoginPage
+import blotto.test.pages.StrategyPage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

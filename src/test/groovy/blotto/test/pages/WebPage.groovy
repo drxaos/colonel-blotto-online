@@ -1,4 +1,4 @@
-package blotto.test.web.pages
+package blotto.test.pages
 
 import geb.Page
 
