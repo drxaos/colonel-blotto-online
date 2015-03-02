@@ -78,23 +78,6 @@ public class GameService {
                 res = db.call(sql)
                 pos++
             }
-
-            db.query("select * from player p where p.position > 0 order by p.position asc") { ResultSet rs ->
-                while (rs.next()) {
-                    def row = rs.toRowResult()
-                    def strategy = "" +
-                            row.strategy_f1 + ', ' +
-                            row.strategy_f2 + ', ' +
-                            row.strategy_f3 + ', ' +
-                            row.strategy_f4 + ', ' +
-                            row.strategy_f5 + ', ' +
-                            row.strategy_f6 + ', ' +
-                            row.strategy_f7 + ', ' +
-                            row.strategy_f8 + ', ' +
-                            row.strategy_f9
-                    b.append("\"${strategy}\",\"${row.wins}\",\"${row.draws}\",\"${row.loses}\",\"${row.score}\"\n")
-                }
-            }
         }
 
         log.info("Battle job end")

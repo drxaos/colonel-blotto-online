@@ -1,5 +1,6 @@
 package blotto.job.system
 
+import blotto.Application
 import groovy.util.logging.Log4j
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
@@ -60,7 +61,7 @@ abstract public class AbstractJob {
         def expressions = getCronAnnotations()
         def next = null
         expressions.each { exp ->
-            def d = new CronSequenceGenerator(exp).next(DateTime.now().toDate())
+            def d = new CronSequenceGenerator(Application.resolveValue(exp)).next(DateTime.now().toDate())
             if (!next || next > d) {
                 next = d
             }

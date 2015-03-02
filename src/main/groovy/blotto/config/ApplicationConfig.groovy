@@ -24,6 +24,8 @@ environments {
         datasource.driver = "com.mysql.jdbc.Driver"
 
         scheduler.enable = true
+
+        cron.battle = "0 0/5 * * * *"
     }
     test {
         datasource.username = "sa"

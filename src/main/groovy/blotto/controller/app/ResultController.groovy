@@ -43,6 +43,10 @@ public class ResultController extends AbstractMvcController {
         if (battleJob.inProgress) {
             return new ModelAndView("result/progress", [counter: counter ?: 0])
         }
+        def player = playerService.currentLoggedInUser
+        if (player.position <= 0) {
+            return new ModelAndView("redirect:/result")
+        }
         try {
             String csv = gameService.getResultCsv()
             response.setContentType("application/csv");

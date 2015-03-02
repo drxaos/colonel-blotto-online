@@ -1,5 +1,6 @@
 package blotto.config
 
+import blotto.Application
 import grails.util.Holders
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.core.io.support.GrailsFactoriesLoader
@@ -27,6 +28,7 @@ class GrailsHoldersConfiguration implements ApplicationContextAware, GrailsAppli
     @Override
     void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         GrailsHoldersConfiguration.applicationContext = applicationContext
+        Application.applicationContext = applicationContext
         Holders.addApplicationDiscoveryStrategy(new GrailsApplicationDiscoveryStrategy() {
             @Override
             GrailsApplication findGrailsApplication() {

@@ -1,5 +1,6 @@
 package blotto
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration
@@ -17,6 +18,7 @@ import java.nio.charset.Charset
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Application {
 
+    static applicationContext
     private static params = []
 
     static {
@@ -41,5 +43,9 @@ public class Application {
 
     public static List getParams() {
         return new ArrayList(params)
+    }
+
+    public static String resolveValue(String value) {
+        ((ConfigurableBeanFactory) applicationContext.autowireCapableBeanFactory).resolveEmbeddedValue(value)
     }
 }
