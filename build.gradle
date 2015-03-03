@@ -98,6 +98,8 @@ dependencies {
 
     compile 'javax.mail:mail:1.4.7'
     compile 'joda-time:joda-time:2.7'
+
+    compile('org.subethamail:subethasmtp:3.1.7')
 }
 
 test {
@@ -110,4 +112,10 @@ test {
         exceptionFormat "full"
         events "started", "passed", "skipped", "failed"
     }
+}
+
+clean {
+    delete "target"
+    delete "build"
+    delete "classes"
 }

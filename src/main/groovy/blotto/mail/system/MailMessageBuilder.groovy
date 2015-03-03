@@ -487,6 +487,7 @@ class MailMessageBuilder {
                 .replaceAll("\\s{2,}", " ")
         //делать переносы после тегов: br, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, pre, div, p
         str = str.replaceAll("<\\s*br\\s*/\\s*>", "\r\n")
+                .replaceAll("<\\s*br\\s*>", "\r\n")
                 .replaceAll("<\\s*/\\s*h[123456]\\s*>", "\r\n")
                 .replaceAll("ul\\s*>", "ul>\r\n")
                 .replaceAll("ol\\s*>", "ol>\r\n")

@@ -5,8 +5,8 @@
 
     Добро пожаловать, ${fullName}
     <p>
-        Ваш логин: ${username}<br>
-        Пароль: ${password}<br>
+        Ваш логин: ${username}<br/>
+        Пароль: ${password}<br/>
     </p>
 
 </g:applyLayout>
