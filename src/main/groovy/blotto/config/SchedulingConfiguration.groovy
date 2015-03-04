@@ -1,6 +1,7 @@
 package blotto.config
 
-import blotto.utils.scheduler.DisabledScheduler
+import blotto.job.system.JobManager
+import blotto.utils.scheduler.DelegatingScheduler
 import grails.util.Holders
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,12 +10,15 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.annotation.SchedulingConfigurer
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler
 import org.springframework.scheduling.config.ScheduledTaskRegistrar
 
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * Scheduling configuration and task registry holder
@@ -24,8 +28,6 @@ import java.util.concurrent.Executors
 @EnableScheduling
 class SchedulingConfiguration implements SchedulingConfigurer {
 
-    static ScheduledTaskRegistrar registrar
-
     @Autowired
     ApplicationContext applicationContext
 
@@ -33,17 +35,16 @@ class SchedulingConfiguration implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         def prod = applicationContext.environment.acceptsProfiles("prod")
 
-        registrar = taskRegistrar
-
         if (prod) {
             log.info("Setting up thread pool for job scheduling")
-            taskRegistrar.setScheduler(taskExecutor());
+            def scheduler = new ConcurrentTaskScheduler(((ScheduledExecutorService) taskExecutor()))
+            taskRegistrar.setScheduler(new DelegatingScheduler(scheduler: scheduler, jobManager: jobManger()));
         } else if (Holders.config.scheduler.enable) {
             log.info("Setting up default manager for job scheduling")
-            taskRegistrar.setScheduler(new DefaultManagedTaskScheduler());
+            taskRegistrar.setScheduler(new DelegatingScheduler(scheduler: new DefaultManagedTaskScheduler(), jobManager: jobManger()));
         } else {
             log.info("Setting up disabled job scheduling")
-            taskRegistrar.setScheduler(new DisabledScheduler());
+            taskRegistrar.setScheduler(new DelegatingScheduler(jobManager: jobManger()));
         }
     }
 
@@ -53,4 +54,23 @@ class SchedulingConfiguration implements SchedulingConfigurer {
         return Executors.newScheduledThreadPool(100);
     }
 
+    @Bean
+    public JobManager jobManger() {
+        return new JobManager()
+    }
+
+    @Scheduled(fixedRate = 1234l)
+    public void dummyTask() {
+        // nothing
+    }
+
+    @Scheduled(fixedDelay = 55555l)
+    public void dummyDelayTask() {
+        // nothing
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void dummyCronTask() {
+        // nothing
+    }
 }

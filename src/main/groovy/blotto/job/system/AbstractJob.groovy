@@ -1,12 +1,12 @@
 package blotto.job.system
 
 import blotto.Application
+import blotto.utils.scheduler.JobUtils
 import groovy.util.logging.Log4j
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
 import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.scheduling.support.CronSequenceGenerator
 import org.springframework.transaction.PlatformTransactionManager
 
 import java.lang.reflect.Method
@@ -17,6 +17,7 @@ abstract public class AbstractJob {
     final private lock = [inProgress: false]
     private Date lastStart = null
     private Date lastEnd = null
+    public boolean disabled = false
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -36,6 +37,9 @@ abstract public class AbstractJob {
     }
 
     public void run(Closure job) {
+        if (disabled) {
+            return
+        }
         try {
             synchronized (lock) {
                 while (lock.inProgress) {
@@ -58,10 +62,10 @@ abstract public class AbstractJob {
     }
 
     Date getNextRun() {
-        def expressions = getCronAnnotations()
+        def expressions = getCronExpressions()
         def next = null
         expressions.each { exp ->
-            def d = new CronSequenceGenerator(Application.resolveValue(exp)).next(DateTime.now().toDate())
+            def d = JobUtils.getNextRun(exp)
             if (!next || next > d) {
                 next = d
             }
@@ -69,7 +73,7 @@ abstract public class AbstractJob {
         return next
     }
 
-    private List<String> getCronAnnotations() {
+    List<String> getCronExpressions() {
         final List<String> expressions = new ArrayList<String>();
         Class<?> klass = this.class;
         while (klass != Object.class) {
@@ -80,7 +84,7 @@ abstract public class AbstractJob {
                 if (method.isAnnotationPresent(Scheduled.class)) {
                     Scheduled annotInstance = method.getAnnotation(Scheduled.class);
                     if (annotInstance.cron()) {
-                        expressions.add(annotInstance.cron());
+                        expressions.add(Application.resolveValue(annotInstance.cron()));
                     }
                 }
             }
