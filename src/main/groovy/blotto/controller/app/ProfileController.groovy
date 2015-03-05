@@ -18,16 +18,16 @@ public class ProfileController extends AbstractMvcController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile() {
-        def player = playerService.currentLoggedInUser
-        return new ModelAndView("profile/profile", [player: player])
+        def user = playerService.currentLoggedInUser
+        return new ModelAndView("profile/profile", [user: user])
     }
 
     @RequestMapping(value = "/profile/update", method = RequestMethod.POST)
     @ResponseBody
     public ActionAnswer updateProfile(ProfileParams cmd) {
         action(cmd) {
-            def player = playerService.currentLoggedInUser
-            playerService.updatePlayer(player, cmd.password, cmd.email, cmd.fullName)
+            def user = playerService.currentLoggedInUser
+            playerService.updateUser(user, cmd.password, cmd.email, cmd.fullName)
             return success("updated")
         }
     }

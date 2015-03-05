@@ -2,6 +2,7 @@ package blotto.controller.errors
 
 import blotto.controller.system.AbstractMvcController
 import blotto.domain.Player
+import blotto.domain.User
 import blotto.service.app.PlayerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -17,7 +18,7 @@ public class ErrorController extends AbstractMvcController {
 
     @RequestMapping(value = "/fail", method = RequestMethod.GET)
     public ModelAndView showError() {
-        Player p = null
+        User p = null
         try {
             p = playerService.currentLoggedInUser
         } catch (Exception ignore) {

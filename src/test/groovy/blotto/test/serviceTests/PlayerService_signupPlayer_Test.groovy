@@ -1,6 +1,7 @@
 package blotto.test.serviceTests
 
 import blotto.domain.Player
+import blotto.domain.User
 import blotto.errors.player.EmailAlreadyExists
 import blotto.errors.player.UsernameAlreadyExists
 import blotto.service.app.PlayerService
@@ -44,11 +45,13 @@ public class PlayerService_signupPlayer_Test extends AbstractSpringTest {
         smtpStubServer.reset()
         playerService.signUpPlayer("user2", "paswd", "asd2@asd.ru", "Another Test User")
 
-        then: "there is a new player"
-        def player = Player.findByUsername("user2")
+        then: "there is a new user"
+        def user = User.findByUsername("user2")
+        Assert.assertNotNull("user", user)
+        Assert.assertEquals("user name", "Another Test User", user.fullName)
+        Assert.assertEquals("user email", "asd2@asd.ru", user.email)
+        def player = Player.findByUser(user)
         Assert.assertNotNull("player", player)
-        Assert.assertEquals("player name", "Another Test User", player.fullName)
-        Assert.assertEquals("player email", "asd2@asd.ru", player.email)
 
         and: "there is a sign up mail"
         assert smtpStubServer.allMessages.size() == 1

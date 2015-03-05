@@ -27,7 +27,7 @@
                     <g:if test="${p.score > 0}">
                         <span class="badge">${1d * p.score / 10}</span>
                     </g:if>
-                    ${p.position > 0 ? p.position : "NN"}. ${p.fullName} (${p.username})
+                    ${p.position > 0 ? p.position : "NN"}. ${p.user.fullName} (${p.user.username})
                 </a>
             </g:each>
         </div>

@@ -39,6 +39,8 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
     @Autowired
     DataSource dataSource
 
+    File resources
+
     @Override
     public void afterPropertiesSet() throws LiquibaseException {
 
@@ -51,6 +53,7 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
             path = path.parentFile
         }
         new File(path.absolutePath + "/src/main/resources/liquibase/updates/").mkdirs()
+        resources = new File(path.absolutePath + "/src/main/resources/")
         def root = new File(path.absolutePath + "/src/main/resources/liquibase/changelog.xml")
         def changelog = new File(path.absolutePath + "/src/main/resources/liquibase/updates/${releaseName}.xml")
         def updateSql = new File(path.absolutePath + "/src/main/resources/liquibase/sql/${releaseName}_update.sql")
@@ -67,7 +70,7 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
             rollbackSql.delete()
         }
 
-        setChangeLog(root.absolutePath);
+        setChangeLog((root.absolutePath - resources.absolutePath).replace("\\", "/").replaceFirst("^/", ""));
 
         Connection c = dataSourceLiquibase.getConnection()
         Liquibase liquibase = createLiquibase(c, changelog.absolutePath)
@@ -95,7 +98,7 @@ class ReleasingLiquibase extends SpringLiquibase implements InitializingBean {
     }
 
     protected Liquibase createLiquibase(Connection c, String excludePath) throws LiquibaseException {
-        Liquibase liquibase = new Liquibase(getChangeLog(), new FileOpener(excludePath), createDatabase(c));
+        Liquibase liquibase = new Liquibase(getChangeLog(), new FileOpener(resources, excludePath), createDatabase(c));
 
         liquibase.setIgnoreClasspathPrefix(isIgnoreClasspathPrefix());
         if (parameters != null) {
@@ -127,22 +130,25 @@ public class FileOpener implements ResourceAccessor {
 
     String excludePath
 
-    FileOpener(String excludePath) {
+    File resources
+
+    FileOpener(File resources, String excludePath) {
+        this.resources = resources
         this.excludePath = excludePath
     }
 
     @Override
     Set<InputStream> getResourcesAsStream(String path) throws IOException {
-        return [new File(path).newInputStream()] as Set
+        return [new File(resources.absolutePath + "/" + path).newInputStream()] as Set
     }
 
     @Override
     Set<String> list(String relativeTo, String path, boolean includeFiles, boolean includeDirectories, boolean recursive) throws IOException {
         def list = []
 
-        new File(new File(relativeTo ?: ".").parentFile.absolutePath + "/" + path).eachFileRecurse(FileType.FILES) { File file ->
+        new File(new File((resources.absolutePath + "/" + relativeTo) ?: ".").parentFile.absolutePath + "/" + path).eachFileRecurse(FileType.FILES) { File file ->
             if (file.name.endsWith(".xml") && file.absolutePath != excludePath) {
-                list << file.absolutePath
+                list << (file.absolutePath - resources.absolutePath).replace("\\", "/").replaceFirst("^/", "")
             }
         }
 

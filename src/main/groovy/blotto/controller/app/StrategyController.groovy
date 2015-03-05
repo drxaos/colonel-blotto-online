@@ -26,17 +26,17 @@ public class StrategyController extends AbstractMvcController {
 
     @RequestMapping(value = ["/strategy", "/"], method = RequestMethod.GET)
     public ModelAndView strategy() {
-        def player = playerService.currentLoggedInUser
-        return new ModelAndView("strategy/strategy", [strategy: player.strategy])
+        def user = playerService.currentLoggedInUser
+        return new ModelAndView("strategy/strategy", [strategy: user.player.strategy])
     }
 
     @RequestMapping(value = "/strategy/update", method = RequestMethod.POST)
     @ResponseBody
     public ActionAnswer update(Strategy strategy) {
         action(strategy) {
-            def player = playerService.currentLoggedInUser
-            strategyService.updateStrategy(player, strategy)
-            if (strategyService.checkSoldiers(player.strategy)) {
+            def user = playerService.currentLoggedInUser
+            strategyService.updateStrategy(user.player, strategy)
+            if (strategyService.checkSoldiers(user.player.strategy)) {
                 return success("done")
             } else {
                 return warning("done-incorrect")

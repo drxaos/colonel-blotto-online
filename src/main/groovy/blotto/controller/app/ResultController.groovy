@@ -27,7 +27,7 @@ public class ResultController extends AbstractMvcController {
         if (battleJob.inProgress) {
             return new ModelAndView("result/progress", [counter: counter ?: 0])
         }
-        def player = playerService.currentLoggedInUser
+        def user = playerService.currentLoggedInUser
         def best = gameService.getBestStrategies(3)
         if (best.size() > 0) {
             while (best.size() < 3) {
@@ -35,7 +35,7 @@ public class ResultController extends AbstractMvcController {
             }
         }
         def next = gameService.getNextBattle()
-        return new ModelAndView("result/result", [best: best, player: player, next: next, counter: counter ?: 0])
+        return new ModelAndView("result/result", [best: best, player: user.player, next: next, counter: counter ?: 0])
     }
 
     @RequestMapping(value = "/result/download", method = RequestMethod.GET)
@@ -43,8 +43,8 @@ public class ResultController extends AbstractMvcController {
         if (battleJob.inProgress) {
             return new ModelAndView("result/progress", [counter: counter ?: 0])
         }
-        def player = playerService.currentLoggedInUser
-        if (player.position <= 0) {
+        def user = playerService.currentLoggedInUser
+        if (user.player.position <= 0) {
             return new ModelAndView("redirect:/result")
         }
         try {

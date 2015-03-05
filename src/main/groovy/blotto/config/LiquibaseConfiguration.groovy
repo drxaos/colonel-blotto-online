@@ -6,7 +6,6 @@ import liquibase.servicelocator.ServiceLocator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.liquibase.CommonsLoggingLiquibaseLogger
-import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Bean

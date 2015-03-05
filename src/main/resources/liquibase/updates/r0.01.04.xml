@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="xaos" id="r0.01.04-1">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+            <column name="version" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-2">
+        <addColumn tableName="player">
+            <column name="user_id" type="bigint(19)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-2-migrate-data">
+        <sql>
+            INSERT INTO user (version, created, email, full_name, password, username)
+            SELECT 0, created, email, full_name, password, username FROM player;
+
+            update player p set p.user_id = (select u.id from user u where p.username = u.username);
+        </sql>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-3">
+        <addUniqueConstraint columnNames="user_id" constraintName="uk_fpxwfe7n29rwsbyu5p1wl2mq1" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-4">
+        <addUniqueConstraint columnNames="email" constraintName="uk_ob8kqyqqgmefl0aco34akdtpe" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="user"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-5">
+        <addUniqueConstraint columnNames="username" constraintName="uk_sb8bbouer5wak8vyiiy4pf2bx" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="user"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-6">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="player"
+                                 constraintName="fk_fpxwfe7n29rwsbyu5p1wl2mq1" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="user"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-7">
+        <dropUniqueConstraint constraintName="uk_o39xn8lmj05iew7d2tgw836jy" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-8">
+        <dropUniqueConstraint constraintName="uk_oivbimcon0iqmb8efpv723h08" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-9">
+        <dropColumn columnName="created" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-10">
+        <dropColumn columnName="email" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-11">
+        <dropColumn columnName="full_name" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-12">
+        <dropColumn columnName="password" tableName="player"/>
+    </changeSet>
+    <changeSet author="xaos" id="r0.01.04-13">
+        <dropColumn columnName="username" tableName="player"/>
+    </changeSet>
+</databaseChangeLog>

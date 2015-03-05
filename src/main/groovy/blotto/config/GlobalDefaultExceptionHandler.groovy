@@ -1,6 +1,7 @@
 package blotto.config
 
 import blotto.domain.Player
+import blotto.domain.User
 import blotto.service.app.PlayerService
 import groovy.util.logging.Log4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,14 +34,14 @@ class GlobalDefaultExceptionHandler {
 
         log.error(null, e)
 
-        Player p = null
+        User u = null
         try {
-            p = playerService.currentLoggedInUser
+            u = playerService.currentLoggedInUser
         } catch (Exception ignore) {
             // nothing
         }
 
         // Otherwise setup and send the user to a default error-view.
-        return new ModelAndView(DEFAULT_ERROR_VIEW, [player: p, exception: e, url: req.getRequestURL()]);
+        return new ModelAndView(DEFAULT_ERROR_VIEW, [user: u, exception: e, url: req.getRequestURL()]);
     }
 }

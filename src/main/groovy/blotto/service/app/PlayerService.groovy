@@ -2,6 +2,7 @@ package blotto.service.app
 
 import blotto.aop.inprogress.DisableIfBattleInProgress
 import blotto.domain.Player
+import blotto.domain.User
 import blotto.errors.player.EmailAlreadyExists
 import blotto.errors.player.UsernameAlreadyExists
 import blotto.mail.app.Mailer
@@ -20,15 +21,19 @@ public class PlayerService {
 
     @Transactional
     public Player createPlayer(String username, String password, String email, String fullName) {
-        if (Player.findByUsername(username)) {
+        if (User.findByUsername(username)) {
             throw new UsernameAlreadyExists(username)
         }
-        if (Player.findByEmail(email)) {
+        if (User.findByEmail(email)) {
             throw new EmailAlreadyExists(email)
         }
 
-        Player player = new Player(username: username, email: email, password: password, fullName: fullName)
+        User user = new User(username: username, email: email, password: password, fullName: fullName)
+        user.save(flush: true, failOnError: true)
+
+        Player player = new Player(user: user)
         player.save(flush: true, failOnError: true)
+
         return player
     }
 
@@ -41,23 +46,23 @@ public class PlayerService {
 
     @Transactional
     @DisableIfBattleInProgress
-    public Player updatePlayer(Player player, String password, String email, String fullName) {
-        if (!player) {
+    public User updateUser(User user, String password, String email, String fullName) {
+        if (!user) {
             throw new IllegalArgumentException("wrong-args")
         }
-        player.fullName = fullName
-        player.email = email
-        player.password = password
-        player.save(flush: true, failOnError: true)
-        return player
+        user.fullName = fullName
+        user.email = email
+        user.password = password
+        user.save(flush: true, failOnError: true)
+        return user
     }
 
     @Transactional
     public List listPlayers(Player forPlayer) {
-        Player.findAll("from Player p order by p.score desc, p.position asc, p.strategyLastUpdated desc", [:])
+        return Player.findAll("from Player p left join fetch p.user order by p.score desc, p.position asc, p.strategyLastUpdated desc", [:])
     }
 
-    public Player getCurrentLoggedInUser() {
+    public User getCurrentLoggedInUser() {
         def principal = SecurityContextHolder.getContext()?.getAuthentication()?.getPrincipal()
         def username = ""
         if (principal instanceof String) {
@@ -66,7 +71,7 @@ public class PlayerService {
             username = principal?.username
         }
         if (username) {
-            return Player.findByUsername(username)
+            return User.findByUsername(username)
         }
         return null
     }

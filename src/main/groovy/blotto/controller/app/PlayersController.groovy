@@ -16,9 +16,9 @@ public class PlayersController extends AbstractMvcController {
 
     @RequestMapping(value = "/players", method = RequestMethod.GET)
     public ModelAndView listPlayers() {
-        def player = playerService.currentLoggedInUser
-        def list = playerService.listPlayers(player)
-        return new ModelAndView("players/list", [list: list, player: player])
+        def user = playerService.currentLoggedInUser
+        def list = playerService.listPlayers(user.player)
+        return new ModelAndView("players/list", [list: list, player: user.player])
     }
 
 }

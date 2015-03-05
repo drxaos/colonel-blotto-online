@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -22,6 +23,7 @@ import javax.sql.DataSource
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -34,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, true from player where username = ?")
-                .authoritiesByUsernameQuery("select username, 'ROLE_USER' from player where username = ?")
+                .usersByUsernameQuery("select username, password, true from user where username = ?")
+                .authoritiesByUsernameQuery("select username, CASE player.id WHEN NULL THEN 'ROLE_ADMIN' ELSE 'ROLE_USER' END as role from user, player where username = ? and player.user_id = user.id")
                 .passwordEncoder(passwordEncoder());
     }
 

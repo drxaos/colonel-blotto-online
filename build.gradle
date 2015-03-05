@@ -62,7 +62,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-aop")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.springframework:spring-context-support")
 
     compile("org.codehaus.groovy:groovy-all:$groovyVersion")
 
@@ -106,6 +108,8 @@ test {
     dependsOn unzipChromeDriver
     def chromedriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "chromedriver.exe" : "chromedriver"
     systemProperty "webdriver.chrome.driver", new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
+
+    jvmArgs '-XX:MaxPermSize=512m', '-Xmx1024m', '-Xms256m'
 
     testLogging {
         //showStandardStreams = true

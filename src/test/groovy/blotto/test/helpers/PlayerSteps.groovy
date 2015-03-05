@@ -6,6 +6,7 @@ import blotto.test.pages.LoginPage
 import blotto.test.pages.StrategyPage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class PlayerSteps extends AbstractSteps {
@@ -13,6 +14,7 @@ class PlayerSteps extends AbstractSteps {
     @Autowired
     PlayerService playerService
 
+    @Transactional
     Player createPlayer(String username = "user1", String password = "passwd") {
         def player = playerService.createPlayer(username, password, username + "@test.ru", "Test User")
         return player

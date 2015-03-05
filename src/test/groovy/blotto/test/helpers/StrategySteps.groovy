@@ -5,6 +5,7 @@ import blotto.domain.Strategy
 import blotto.service.app.StrategyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class StrategySteps extends AbstractSteps {
@@ -15,6 +16,7 @@ class StrategySteps extends AbstractSteps {
     @Autowired
     StrategyService strategyService
 
+    @Transactional
     Player createPlayerWithStrategy(String username, f1, f2, f3, f4, f5, f6, f7, f8, f9) {
         def player = playerSteps.createPlayer(username)
         strategyService.updateStrategy(

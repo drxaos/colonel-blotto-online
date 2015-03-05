@@ -3,19 +3,11 @@ package blotto.domain
 import grails.persistence.Entity
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
-import org.joda.time.DateTime
 
 @Entity
 @ToString
 @EqualsAndHashCode
 class Player {
-    String username
-    String password
-    Date created = DateTime.now().toDate()
-
-    String fullName
-    String email
-
     Strategy strategy = new Strategy()
     Date strategyLastUpdated
 
@@ -26,14 +18,12 @@ class Player {
     Integer loses = 0
     Integer draws = 0
 
+    User user
+
     static embedded = ['strategy']
 
     static constraints = {
-        username nullable: false, blank: false, unique: true
-        password nullable: false, blank: false
-
-        fullName nullable: false, blank: false
-        email nullable: false, blank: false, unique: true
+        user nullable: false
 
         strategyLastUpdated nullable: true
 
